@@ -1,7 +1,7 @@
 import React, { useImperativeHandle } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { withRouter } from "react-router-dom";
 import { ACCESS_TOKEN_NAME } from '../../constants/apiContants';
+import { FaSignOutAlt } from 'react-icons/fa';
 function Header(props) {
     const capitalize = (s) => {
         if (typeof s !== 'string') return ''
@@ -15,8 +15,8 @@ function Header(props) {
         if (props.location.pathname === '/home') {
             return (
                 <div className="text-left">
-                    <FontAwesomeIcon icon={["fas","check-fa-sign-out-alt"]} />
-                    <button className="btn btn-danger" onClick={() => handleLogout()}>Salir</button>
+                   
+                    <button className="btn btn-danger" onClick={() => handleLogout()}>Salir  <FaSignOutAlt/></button>
                 </div>
             )
         }
