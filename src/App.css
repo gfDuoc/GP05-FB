@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+.hv-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-it {
+  display: block;
+}
+
+.hide-it {
+  display: none;
+}
