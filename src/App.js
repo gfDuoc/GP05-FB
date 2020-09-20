@@ -4,7 +4,6 @@ import Header from './components/Header/Header';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import Home from './components/Home/Home';
-import SideBar from './components/Sidebar/SiderBar';
 import PrivateRoute from './utils/PrivateRoute';
 import {
   BrowserRouter as Router,
@@ -18,11 +17,10 @@ function App() {
   const [userName, updateUserName] = useState(null);
   return (
     <Router>
-    <div className="App">
+    <div className="">
       <Header title={title} userName={userName}/>
     
-        <div className="container d-flex align-items-center flex-column">
-        <SideBar title={title}/>
+        <div className="container-fluid ">
           <Switch>
             <Route path="/" exact={true}>
             <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={updateUserName}/>

@@ -1,0 +1,11 @@
+notas varias:
+============
+response desde server!
+{data: Array(5), status: 200, statusText: "OK", headers: {…}, config: {…}, …}
+config: {url: "http://localhost:3333/tareas", method: "get", headers: {…}, transformRequest: Array(1), transformResponse: Array(1), …}
+data: (5) [{…}, {…}, {…}, {…}, {…}]
+headers: {cache-control: "no-cache", content-type: "application/json; charset=utf-8", expires: "-1", pragma: "no-cache"}
+request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
+status: 200
+statusText: "OK"
+__proto__: Object

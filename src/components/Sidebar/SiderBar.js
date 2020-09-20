@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { ACCESS_TOKEN_NAME, API_BASE_URL } from '../../constants/apiContants';
-import axios from 'axios'
 
 function SideBar(props) {
     const capitalize = (s) => {
@@ -19,17 +17,38 @@ function SideBar(props) {
         }
         else {
             return (
-                <div className="col-2">
-                <nav id="sidebar" className="sidebar-wrapper">
-                    <div className=" sidebar-item sidebar-menu">
-                        <ul>
-                            <li className="header-menu">
-                                <span>General</span>
-                            </li>
-                        </ul>
-                    </div>
+                <div className="sidebar-sticky  bg-dark">
+                                    <nav id="sidebar" className="navbar  navbar-dark ">
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <span className="text-white" > MENU</span>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/home">Usarios</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/home">Unidades Internas</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/home">Roles</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/home">Flujos de Tareas</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/home">Tareas</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/home">Reportes</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/home">Empresas</a>
+                        </li>
+                    </ul>
                 </nav>
                 </div>
+
+
             )
         }
     }

@@ -1,8 +1,9 @@
-import React, { useImperativeHandle } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from "react-router-dom";
 import { ACCESS_TOKEN_NAME } from '../../constants/apiContants';
 import { FaSignOutAlt } from 'react-icons/fa';
 function Header(props) {
+    const [userName, setUserName] = useState("Usuario");
     const capitalize = (s) => {
         if (typeof s !== 'string') return ''
         return s.charAt(0).toUpperCase() + s.slice(1)
@@ -15,8 +16,7 @@ function Header(props) {
         if (props.location.pathname === '/home') {
             return (
                 <div className="text-left">
-                   
-                    <button className="btn btn-danger" onClick={() => handleLogout()}>Salir  <FaSignOutAlt/></button>
+                    <button className="btn btn-danger" onClick={() => handleLogout()}>Salir  <FaSignOutAlt /></button>
                 </div>
             )
         }
@@ -26,39 +26,45 @@ function Header(props) {
         props.history.push('/login')
     }
 
+    function givename(){
+        if (props.userName !== "null") {setUserName(props.userName) }
+    }
+
     function tipeHeader(title) {
+     
         if (title === 'null' || title === 'Login') {
             return (
-                <img src={window.location.origin + '/logo-a.png'} alt="Logo" className="img-fluid mx-auto d-block" width="20%" eight="20%" />
+                <nav className="navbar navbar-dark bg-secondary">
+                    <img src={window.location.origin + '/logo-a.png'} alt="Logo" width="20%" eight="20%" className="mx-auto d-block" />
+                </nav>
             )
         } else {
             return (
-                <div>
-                    <div className="row">
-                        <div className="col">
-                            <a className="navbar-brand" href="/home">
-                                <img src={window.location.origin + '/logo-a.png'} alt="Logo" width="40%" eight="40%" />
-                            </a>
-                        </div>
-                        <div className="col">
-                            <span className="h3">{title}</span>
-                        </div>
-                        <div className="col">
-                            <div className="row">
-                                <div className="col">     <p>{props.userName}</p></div>
-                                <div className="col">  {renderLogout()}</div>
-                            </div>      
-                        </div>
-                    </div>
-                </div>
+                <nav className="navbar navbar-expand-sm bg-secondary navbar-dark">
+                    <a className="navbar-brand maximunA" href="/home">
+                        <img src={window.location.origin + '/logo-a.png'} alt="Logo" width="30%" className="float-left" />
+                    </a>
+                    <span className="navbar-text h3  ">
+                        {title}
+                    </span>
+                    <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                            <ul >
+                                <li className="badge badge-light">{userName}</li>
+                                <li className="badge badge-light">Empresa</li>
+                            </ul>
+                        </li>
+                        <li className="nav-item">
+                            {renderLogout()}
+                        </li>
+                    </ul>
+                </nav>
+
             )
         }
     }
     return (
-        <nav className="navbar navbar-dark bg-secondary">
-            {console.log(title)}
-            {tipeHeader(title)}
-        </nav>
+        tipeHeader(title)
     )
 }
 export default withRouter(Header);
