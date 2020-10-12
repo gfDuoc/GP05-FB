@@ -26,9 +26,10 @@ function Header(props) {
         props.history.push('/login')
     }
 
-    function givename(){
-        if (props.userName !== "null") {setUserName(props.userName) }
-    }
+    function editTitle(text){
+      var num = text.indexOf('/')
+      if (num > 0){  return( text.substring(0,num))} else { return text} 
+     }
 
     function tipeHeader(title) {
      
@@ -45,7 +46,7 @@ function Header(props) {
                         <img src={window.location.origin + '/logo-a.png'} alt="Logo" width="30%" className="float-left" />
                     </a>
                     <span className="navbar-text h3  ">
-                        {title}
+                        {editTitle(title)}
                     </span>
                     <ul className="navbar-nav ml-auto">
                     <li className="nav-item">

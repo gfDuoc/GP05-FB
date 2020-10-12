@@ -24,7 +24,7 @@ function SideBar(props) {
                             <span className="text-white" > MENU</span>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/home">Usarios</a>
+                            <a className="nav-link" href="/usuarios">Usarios</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/home">Unidades Internas</a>

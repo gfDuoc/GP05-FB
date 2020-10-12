@@ -4,6 +4,10 @@ import Header from './components/Header/Header';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import Home from './components/Home/Home';
+import Users from './components/Users/Users';
+import UserForm from './components/Users/UserForm';
+import UserEdit from './components/Users/UserEdit';
+import ShowUser from './components/Users/User';
 import PrivateRoute from './utils/PrivateRoute';
 import {
   BrowserRouter as Router,
@@ -33,6 +37,18 @@ function App() {
             </Route>
             <PrivateRoute path="/home">
               <Home />
+            </PrivateRoute>
+            <PrivateRoute path="/usuarios" exact={true}> 
+              <Users/>
+            </PrivateRoute>
+            <PrivateRoute path="/usuarios/nuevo" exact={true}>
+              <UserForm/>
+            </PrivateRoute>
+            <PrivateRoute path="/usuarios/:id" exact={true}> 
+              <ShowUser/>
+            </PrivateRoute>
+            <PrivateRoute path="/usuarios/:id/edit" exact={true} > 
+              <UserEdit/>
             </PrivateRoute>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>
