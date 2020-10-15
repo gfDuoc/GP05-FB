@@ -20,17 +20,29 @@ function UserForm(props) {
 
     const InsertUser = (e) => {
         e.preventDefault();
-        debugger;
         const data = { nombreUsuario: state.nombreUsuario, contrasenna: state.contrasenna, nombre: state.nombre, 
             apellidos: state.apellidos, correo: state.correo, perfil_ID: state.perfil_ID, cargo_ID: state.cargo_ID, empresa_ID: state.empresa_ID   };
+        console.log(data)
         axios.post(apiUrl, data)
-            .then((result) => {
-                props.history.push('/usuarios')
-            });
+        .then(function(response) {
+            console.log(response)
+            if (response.status === 201) {
+                props.history.push( '/usuarios/' + response.data.id );  
+            }
+            else if (response.code >= 400) {
+                props.showError("error al contactar con servidor");
+            }
+            else {
+                props.showError("error al crear");
+            }
+        })
+        .catch(function (error) {
+            props.showError("error al crear");
+            console.log(error);
+        });;
     };
     const handleChange = (e) => {
         e.persist();
-        debugger;
         setState({ ...state, [e.target.name]: e.target.value });
     }
 

@@ -6,6 +6,7 @@ import SideBar from '../Sidebar/SiderBar';
 import Task from '../Tasks/Task';
 
 function Home(props) {
+  console.log(props)
   const [jason, setJason] = useState(null);
 
   useEffect(() => {

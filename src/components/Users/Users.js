@@ -1,9 +1,10 @@
 import React, { useEffect,useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { API_BASE_URL } from '../../constants/apiContants';
 import axios from 'axios';  
 
-export default function Users(props){
-	const [data, setData] = useState([]);  
+function Users(props){
+	const [data, setData] = useState([]);  	console.log(props)
 	useEffect(() => {  
 		const GetData = async () => {  
 			const result = await axios(API_BASE_URL+"/usuarios");  
@@ -12,9 +13,9 @@ export default function Users(props){
 		GetData();  
 	}, []);  
 
-	const ShowUser = (id) => {
-		console.log('/usuarios/' + id  )  
-		this.props.history.push( '/usuarios/' + id );  
+	function ShowUser(id) {
+		console.log('/usuarios/' + id  ) 
+		props.history.push( '/usuarios/' + id );  
 	};  
     return (
 
@@ -62,3 +63,6 @@ export default function Users(props){
 
 	)
 }
+
+
+export default withRouter(Users);
