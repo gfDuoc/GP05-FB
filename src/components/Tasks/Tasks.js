@@ -1,38 +1,88 @@
-import React, { Component } from 'react';
+import React, { useEffect,useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { API_BASE_URL } from '../../constants/apiContants';
+import SideBar from '../Sidebar/SiderBar';
+import axios from 'axios';  
 
 
+function Tasks(props){
+	const [data, setData] = useState([]);  	console.log(props)
 
-class showTasks extends Component {
-    constructor(tasks) {
-        this.tasks = tasks;
-      }
+	useEffect(() => {  
+		const GetData = async () => {  
+			const result = await axios(API_BASE_URL+"/tareas");  
+			setData(result.data);  
+		};  
+		GetData();  
+	}, []);  
 
-    render() {
-        const {tasks} = this.tasks;
-        if(tasks =='null'){
-            return <div>Error in loading</div>
-        }else if (tasks.length == 0 ) {
-            return <div> no hay datos </div>
-        }else{
-            return(
-                <div>
-                    <ol className="item">
-                    {
-                        tasks.map(post => (
-                            <li key={post.id} align="start">
-                                <div>
-                                    <p className="title">{post.title}</p>
-                                    <p className="body">{post.body}</p>
-                                </div>
-                            </li>
-                        ))
-                    }
-                    </ol>
-                </div>
-            );
+	function showTask(id) {
+		console.log('/tareas/' + id  ) 
+		props.history.push( '/tareas/' + id );  
+	};  
+
+    function task(tarea){
+		return(
+			<div>
+				<div className="card">
+					<div className="card-header">
+						<b>ID:</b> {tarea.ID_tarea} <b>Nombre</b> {tarea.nombre}
+					</div>
+					<div className="card-body">
+						<div className="row">
+							<div className="col">
+								<p><b>estimado inicio:</b>{tarea.terminoRegistrado}</p>
+								<p><b>reail incio:</b>{tarea.terminoRegistrado}</p>
+							</div>
+							<div className="col">
+								<p><b>estimado cierre:</b> {tarea.terminoRegistrado}</p>
+								<p><b>Real cierre:</b> {tarea.terminoRegistrado}</p>
+							</div>
+						</div>
+					</div>
+					<div className="card-footer"><b>observaciones:</b>{tarea.observaciones}
+						<br/>
+						<button type="button" className="btn btn-primary btn-block "  onClick={() => { showTask(tarea.ID_tarea) }}>ver tarea</button>
+					</div>
+				</div>
+			</div>
+		)
+	};
+
+    function weHadTask(lista){
+        if (lista === 'null'){
+         return( <div> error al cargar</div>)
+        } else if ( Array.isArray(lista ) && lista.length === 0 ){
+         return( <div> no tiene tareas pendientes</div>)
+        } else if ( Array.isArray(lista ) && lista.length > 0){
+          return(<div><p>hay traeas pendientes</p>{lista.map(t =>(task(t)))}</div>)
+        } else {
+          return(<div>Error desconocido!</div>)
         }
+      };
+
+    return (
+        <div className="row">
+        <div className="col-2"><SideBar/></div>
+		<div className="container mt-5" align="center">
       
-    }
+	  <h4>Tareas registradas</h4>
+	        
+	      <div className="row">
+
+	        <div className="col-md-12">
+
+	            {
+                weHadTask(data)
+                }
+
+	      </div>
+        
+    	</div>
+		</div>
+	</div>
+	)
 }
 
-export default showTasks;
+
+export default withRouter(Tasks);

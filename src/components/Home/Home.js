@@ -21,7 +21,8 @@ function Home(props) {
       .catch(function (error) {
         redirectToLogin()
       });
-  })
+  },[jason])
+  
   function redirectToLogin() {
     props.history.push('/login');
   }

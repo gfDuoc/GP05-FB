@@ -1,8 +1,10 @@
 import React, { useEffect,useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { API_BASE_URL } from '../../constants/apiContants';
 
-function useUsuarios (){
-    const [users, setUsers] = useState ([])
+function useUsuarios (props){
+	const [users, setUsers] = useState ([])
+	console.log(props)
 
     useEffect(() => { 
         fetch(API_BASE_URL+"/usuarios")
@@ -15,8 +17,10 @@ function useUsuarios (){
     return users
 }
 
-export default function ShowUser(props){
-    const users = useUsuarios()
+function ShowUser(props){
+	console.log(props);
+	const users = useUsuarios()
+	console.log(users)
      if (users.size){
     return (
 
@@ -65,3 +69,6 @@ export default function ShowUser(props){
 			return( <h2>No existe usuario</h2>)
 	}	
 }
+
+
+export default withRouter(ShowUser);

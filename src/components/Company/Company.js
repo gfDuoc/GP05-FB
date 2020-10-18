@@ -1,30 +1,18 @@
 import React, { useEffect,useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { API_BASE_URL } from '../../constants/apiContants';
-import axios from 'axios'; 
-import SideBar from '../Sidebar/SiderBar'; 
 
-function Users(props){
-	const [data, setData] = useState([]);  	console.log(props)
-	useEffect(() => {  
-		const GetData = async () => {  
-			const result = await axios(API_BASE_URL+"/usuarios");  
-			setData(result.data);  
-		};  
-		GetData();  
-	}, []);  
 
-	function ShowUser(id) {
-		console.log('/usuarios/' + id  ) 
-		props.history.push( '/usuarios/' + id );  
-	};  
+
+function ShowUser(props){
+	console.log(props);
+    const users = useUsuarios()
+     if (users.size){
     return (
-		<div className="row">
-        <div className="col-2"><SideBar/></div>
 
 		<div className="container mt-5" align="center">
       
-	  <h4>usaurios registrados</h4>
+	      <h4>usaurios registrados</h4>
 	        
 	      <div className="row">
 
@@ -37,19 +25,19 @@ function Users(props){
 	                <th scope="col">usuario</th>
 	                <th scope="col">Nombre</th>
 	                <th scope="col">Correo</th>
-					<th scope="col">ver</th>
+					<th scope="col">Ver</th>
 	              </tr>
 	            </thead> 
 	            <tbody>
 
-	            {data.map(item => (
+	            {users.map(item => (
 
 	              <tr key={item.ID_usuario}>
 	                <td>{item.ID_usuario}</td>
 	                <td>{item.nombreUsuario}</td>
 	                <td>{item.nombre} {item.apellidos}</td>
 	                <td>{item.correo}</td>
-	                <td><button className="btn btn-info" onClick={() => { ShowUser(item.ID_usuario) }}>IR</button>  </td>
+	                <td>LINK</td>
 	              </tr>
 
 	            ))}
@@ -61,11 +49,12 @@ function Users(props){
 	        </div>
 
 	      </div>
-        </div>
-    	</div>
-
-	)
+      
+		</div>
+		)} else {
+			return( <h2>No existe usuario</h2>)
+	}	
 }
 
 
-export default withRouter(Users);
+export default withRouter(ShowUser);

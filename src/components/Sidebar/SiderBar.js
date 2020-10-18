@@ -24,7 +24,10 @@ function SideBar(props) {
                             <span className="text-white" > MENU</span>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/usuarios">Usarios</a>
+                            <a className="nav-link" href="/tareas">Tareas</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/usuarios">Usuarios</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/home">Unidades Internas</a>
@@ -34,9 +37,6 @@ function SideBar(props) {
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/home">Flujos de Tareas</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/home">Tareas</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/home">Reportes</a>

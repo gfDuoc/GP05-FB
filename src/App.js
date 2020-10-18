@@ -8,6 +8,10 @@ import Users from './components/Users/Users';
 import UserForm from './components/Users/UserForm';
 import UserEdit from './components/Users/UserEdit';
 import ShowUser from './components/Users/User';
+import Tasks from './components/Tasks/Tasks';
+import ShowTask from './components/Tasks/Task';
+import TaskForm from './components/Tasks/TaskForm';
+import TaskEdit from './components/Tasks/TaskEdit';
 import PrivateRoute from './utils/PrivateRoute';
 import {
   BrowserRouter as Router,
@@ -49,6 +53,18 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/usuarios/:id/edit" exact={true} > 
               <UserEdit/>
+            </PrivateRoute>
+            <PrivateRoute path="/tareas" exact={true} > 
+              <Tasks/>
+            </PrivateRoute>
+            <PrivateRoute path="/tareas/nuevo" exact={true} > 
+              <TaskForm/>
+            </PrivateRoute>
+            <PrivateRoute path="/tareas/:id" exact={true} > 
+              <ShowTask/>
+            </PrivateRoute>
+            <PrivateRoute path="/tareas/:id/edit" exact={true} > 
+              <TaskEdit/>
             </PrivateRoute>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>

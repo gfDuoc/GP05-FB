@@ -16,34 +16,48 @@ function EditUser(props) {
         cargo_ID: 0,
         empresa_ID: 0
     });
-    const Url = API_BASE_URL + "/usuarios/" + props.match.params.id;
-    const apiUrl = API_BASE_URL + "/usuarios/";
 
+    const apiUrl = API_BASE_URL + "/usuarios/" + props.match.params.id +"?extra=1";
+    const [error,setError] = useState(null)
 
     useEffect(() => {
         const GetData = async () => {
-            const result = await axios(Url);
+            const result = await axios(apiUrl);
+            console.log(apiUrl)
             setState(result.data);
         };
         GetData();  
-    }, []);  
+    }, [state]);  
 
 
         const UpdateUser = (e) => {
             e.preventDefault();
-            debugger;
+            //debugger; #detiene la app!
             const data = {
                 nombreUsuario: state.nombreUsuario, contrasenna: state.contrasenna, nombre: state.nombre,
                 apellidos: state.apellidos, correo: state.correo, perfil_ID: state.perfil_ID, cargo_ID: state.cargo_ID, empresa_ID: state.empresa_ID
             };
             axios.patch(apiUrl + '/' + state.id, data)
-                .then((result) => {
-                    props.history.push('/usuarios')
-                });
+            .then(function(response) {
+                console.log(response)
+                if (response.status === 201) {
+                    props.history.push( '/usuarios/' + response.data.id );  
+                }
+                else if (response.code >= 400) {
+                    setError("error 400");
+                }
+                else {
+                    setError("error x0x");
+                }
+            })
+            .catch(function (error) {
+                setError("error 500");
+                console.log(error);
+            });;
         };
         const handleChange = (e) => {
             e.persist();
-            debugger;
+            setError(null);
             setState({ ...state, [e.target.name]: e.target.value });
         }
 
@@ -52,9 +66,9 @@ function EditUser(props) {
                 <div className="col-2"><SideBar /></div>
 
                 <div className="container mt-5" align="center">
-
+                { error !== null &&   <div className="alert alert-danger alert-dismissible fade show">{error}</div> }
                     <div className="card col-10">
-                        <h2> Nuevo usuario</h2>
+                        <h2> Editar usuario</h2>
                         <form onSubmit={UpdateUser}>
                             <div className="form-group text-left">
                                 <label htmlFor="ID_usuario">ID</label>

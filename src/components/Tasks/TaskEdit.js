@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { API_BASE_URL } from '../../constants/apiContants';
 import SideBar from '../Sidebar/SiderBar';
 
-function TaskForm(props) {
+function TaskEdit(props) {
     var laUrl = "/tareas"
     const [option, setoption] = useState([]);
     const [error, setError] = useState(null)
@@ -23,15 +23,19 @@ function TaskForm(props) {
         tareaMadre: 0
     });
 
-    const apiurl = API_BASE_URL + laUrl + "/new";
+    const apiurl = API_BASE_URL + laUrl +"/"+ props.match.params.id +"?extra=1";
 
     useEffect(() => {
         const GetData = async () => {
-            const result = await axios(apiurl);
-            setoption(result.data);
+           // const result = await axios(apiurl);
+           // setoption(result.data);
+           const result = await axios(API_BASE_URL + "/tareas")
+           console.log(result.data[props.match.params.id]);
+           setState(result.data[props.match.params.id]);
+           console.log(state);
         };
         GetData();
-    }, [option]);
+    }, []);
 
     const InsertTask = (e) => {
         e.preventDefault();
@@ -47,7 +51,7 @@ function TaskForm(props) {
             tareaMadre: state.tareaMadre
         };
         console.log(data)
-        axios.post(apiurl, data).then(function (response) {
+        axios.patch(apiurl, data).then(function (response) {
             console.log(response)
             if (response.status === 201) {
                 props.history.push(laUrl + '/' + response.data.id);
@@ -93,7 +97,7 @@ function TaskForm(props) {
             <div className="col">
                 <div className="card">
                     {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
-                    <h2> Nueva Tarea</h2>
+                    <h2> Editar Tarea:</h2>
                     <div className="">
                         <form onSubmit={InsertTask}>
                             <div className="form-group text-left">
@@ -175,4 +179,4 @@ function TaskForm(props) {
 
 }
 
-export default withRouter(TaskForm);
+export default withRouter(TaskEdit);
