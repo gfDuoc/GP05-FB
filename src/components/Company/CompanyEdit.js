@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { API_BASE_URL } from '../../constants/apiContants';
@@ -11,6 +11,19 @@ function CompanyForm(props) {
         ID_empresa: 0,
         razonSocial: ""
     })
+
+    useEffect(() => {
+        const GetData = async () => {
+           // const result = await axios(apiurl);
+           // setoption(result.data);
+           const result = await axios(API_BASE_URL + "/tareas")
+           console.log(result.data[props.match.params.id]);
+           setState(result.data[props.match.params.id]);
+           console.log(state);
+        };
+        GetData();
+    }, []);
+
     const apiurl = API_BASE_URL + laUrl + "/new";
     const InsertCompany = (e) => {
         e.preventDefault();
@@ -19,7 +32,7 @@ function CompanyForm(props) {
             razonSocial: state.razonSocial
         };
         console.log(data)
-        axios.post(apiurl, data).then(function (response) {
+        axios.patch(apiurl, data).then(function (response) {
             console.log(response)
             if (response.status === 201) {
                 props.history.push(laUrl + '/' + response.data.id);

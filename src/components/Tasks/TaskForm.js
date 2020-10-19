@@ -139,13 +139,13 @@ function TaskForm(props) {
                             <div className="form-group">
                                 <label htmlFor="proceso_ID">proceso</label>
                                 <select className="form-control" id="proceso_ID">
-                                {makeAselect(option)}
+                                    {makeAselect(option)}
                                 </select>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="proceso_ID">tarea base</label>
                                 <select className="form-control" id="tareaMadre">
-                                {makeAselect(option)}
+                                    {makeAselect(option)}
                                 </select>
                             </div>
                             <input type="hidden"
