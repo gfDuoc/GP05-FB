@@ -79,7 +79,6 @@ function TaskEdit(props) {
 
     function makeAselect(dato) {
         if (dato.lenght > 0) {
-
             return (
                 <option value={dato.id}>{dato.descripcion}</option>
             )
@@ -88,7 +87,6 @@ function TaskEdit(props) {
                 <option disabled selected value> -elija una opcion- </option>
             )
         }
-
     }
 
     return (
