@@ -65,7 +65,7 @@ function ShowUser(props) {
 			</div>)
 		} else {
 			return (<div>
-				 return(<div className="jumbotron bg-secondary">No hay información en estos momentos.</div>)
+				 <div className="jumbotron bg-secondary">No hay información en estos momentos.</div>
 			</div>)
 		}
 	}

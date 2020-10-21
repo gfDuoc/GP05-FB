@@ -96,7 +96,7 @@ function TaskEdit(props) {
                 {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
                     <div className="card-header">
-                        <h4>nuevo Tarea:</h4>
+                        <h4>Editar Tarea:</h4>
                     </div>
                     <form onSubmit={InsertTask}>
                         <div className="card-body">
