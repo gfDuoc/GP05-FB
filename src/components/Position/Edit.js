@@ -68,11 +68,14 @@ function PositionEdit(props) {
     return (
         <div className="row">
             <div className="col-2"><SideBar /></div>
-            {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
             <div className="col">
+            {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
-                    <p> Editar Cargo</p>
+                <div className="card-header">
+                <h4>Editar Cargo:</h4>
+                </div>
                     <form onSubmit={InsertData} >
+                    <div className="card-body">
                         <div className="form-group text-left">
                             <label htmlFor="descripcion">ID cargo</label>
                             <input type="text"
@@ -94,12 +97,13 @@ function PositionEdit(props) {
                                 onChange={handleChange}
                             />
                         </div>
+                        </div>
                         <div className="card-footer">
                             <div className="row">
                                 <div className="col">
                                     <button type="submit" className="btn btn-outline-info">Guardar </button>
                                 </div>
-                                <div className="col">
+                                <div className="col-1">
                                     <button type="reset" className="btn btn-outline-secondary">Limpiar </button>
                                 </div>
                             </div>

@@ -23,16 +23,16 @@ function TaskEdit(props) {
         tareaMadre: 0
     });
 
-    const apiurl = API_BASE_URL + laUrl +"/"+ props.match.params.id +"?extra=1";
+    const apiurl = API_BASE_URL + laUrl + "/" + props.match.params.id + "?extra=1";
 
     useEffect(() => {
         const GetData = async () => {
-           // const result = await axios(apiurl);
-           // setoption(result.data);
-           const result = await axios(API_BASE_URL + "/tareas")
-           console.log(result.data[props.match.params.id]);
-           setState(result.data[props.match.params.id]);
-           console.log(state);
+            // const result = await axios(apiurl);
+            // setoption(result.data);
+            const result = await axios(API_BASE_URL + "/tareas")
+            console.log(result.data[props.match.params.id]);
+            setState(result.data[props.match.params.id]);
+            console.log(state);
         };
         GetData();
     }, []);
@@ -93,11 +93,13 @@ function TaskEdit(props) {
         <div className="row">
             <div className="col-2"><SideBar /></div>
             <div className="col">
+                {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
-                    {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
-                    <h2> Editar Tarea:</h2>
-                    <div className="">
-                        <form onSubmit={InsertTask}>
+                    <div className="card-header">
+                        <h4>nuevo Tarea:</h4>
+                    </div>
+                    <form onSubmit={InsertTask}>
+                        <div className="card-body">
                             <div className="form-group text-left">
                                 <label htmlFor="descripcion">descripcion</label>
                                 <input type="text"
@@ -141,13 +143,13 @@ function TaskEdit(props) {
                             <div className="form-group">
                                 <label htmlFor="proceso_ID">proceso</label>
                                 <select className="form-control" id="proceso_ID">
-                                {makeAselect(option)}
+                                    {makeAselect(option)}
                                 </select>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="proceso_ID">tarea base</label>
                                 <select className="form-control" id="tareaMadre">
-                                {makeAselect(option)}
+                                    {makeAselect(option)}
                                 </select>
                             </div>
                             <input type="hidden"
@@ -156,19 +158,18 @@ function TaskEdit(props) {
                                 value={state.usuario_ID}
                                 onChange={handleChange}
                             />
-
-                            <div className="card-footer">
-                                <div className="row">
-                                    <div className="col">
-                                        <button type="submit" className="btn btn-outline-info">Guardar </button>
-                                    </div>
-                                    <div className="col">
-                                        <button type="reset" className="btn btn-outline-secondary">Limpiar </button>
-                                    </div>
+                        </div>
+                        <div className="card-footer">
+                            <div className="row">
+                                <div className="col">
+                                    <button type="submit" className="btn btn-outline-info">Guardar </button>
+                                </div>
+                                <div className="col-1">
+                                    <button type="reset" className="btn btn-outline-secondary">Limpiar </button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

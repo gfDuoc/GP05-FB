@@ -30,6 +30,9 @@ function SideBar(props) {
                             <a className="nav-link" href="/usuarios">Usuarios</a>
                         </li>
                         <li className="nav-item">
+                            <a className="nav-link" href="/cargos">Cargos</a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="/home">Unidades Internas</a>
                         </li>
                         <li className="nav-item">

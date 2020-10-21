@@ -91,11 +91,13 @@ function TaskForm(props) {
         <div className="row">
             <div className="col-2"><SideBar /></div>
             <div className="col">
+                {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
-                    {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
-                    <h2> Nueva Tarea</h2>
-                    <div className="">
-                        <form onSubmit={InsertTask}>
+                    <div className="card-header">
+                        <h4>Nuevo Tarea:</h4>
+                    </div>
+                    <form onSubmit={InsertTask}>
+                        <div className="card-body">
                             <div className="form-group text-left">
                                 <label htmlFor="descripcion">descripcion</label>
                                 <input type="text"
@@ -160,13 +162,13 @@ function TaskForm(props) {
                                     <div className="col">
                                         <button type="submit" className="btn btn-outline-info">Guardar </button>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-1">
                                         <button type="reset" className="btn btn-outline-secondary">Limpiar </button>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

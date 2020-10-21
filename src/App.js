@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import Header from './components/Header/Header';
+import PrivateRoute from './utils/PrivateRoute';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import Home from './components/Home/Home';
@@ -12,7 +13,10 @@ import Tasks from './components/Tasks/Tasks';
 import ShowTask from './components/Tasks/Task';
 import TaskForm from './components/Tasks/TaskForm';
 import TaskEdit from './components/Tasks/TaskEdit';
-import PrivateRoute from './utils/PrivateRoute';
+import Positions from './components/Position/Lists';
+import PostionForm from './components/Position/New';
+import PositionEdit from './components/Position/Edit';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -65,6 +69,15 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/tareas/:id/edit" exact={true} > 
               <TaskEdit/>
+            </PrivateRoute>
+            <PrivateRoute path="/cargos" exact={true} > 
+              <Positions/>
+            </PrivateRoute>
+            <PrivateRoute path="/cargos/nuevo" exact={true} > 
+              <PostionForm/>
+            </PrivateRoute>
+            <PrivateRoute path="/cargos/:id/edit" exact={true} > 
+              <PositionEdit/>
             </PrivateRoute>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>

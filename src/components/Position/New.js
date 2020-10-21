@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { API_BASE_URL } from '../../constants/apiContants';
 import SideBar from '../Sidebar/SiderBar';
 
-function CompanyForm(props) {
+function PostionForm(props) {
     var laUrl = "/cargos"
     const [error, setError] = useState(null)
     const [state, setState] = useState({
@@ -46,11 +46,14 @@ function CompanyForm(props) {
     return (
         <div className="row">
             <div className="col-2"><SideBar /></div>
-            {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
             <div className="col">
+            {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
-                    <p> Nuevo cargo</p>
+                <div className="card-header">
+                <h4>Nuevo Cargo:</h4>
+                </div>
                     <form onSubmit={insertData} >
+                    <div className="card-body">
                         <div className="form-group text-left">
                         <label htmlFor="descripcion">ID cargo</label>
                             <input type="text"
@@ -72,12 +75,13 @@ function CompanyForm(props) {
                                 onChange={handleChange}
                             />
                         </div>
+                        </div>
                         <div className="card-footer">
                             <div className="row">
                                 <div className="col">
                                     <button type="submit" className="btn btn-outline-info">Guardar </button>
                                 </div>
-                                <div className="col">
+                                <div className="col-1">
                                     <button type="reset" className="btn btn-outline-secondary">Limpiar </button>
                                 </div>
                             </div>
@@ -90,4 +94,4 @@ function CompanyForm(props) {
     )
 }
 
-export default withRouter(CompanyForm);
+export default withRouter(PostionForm);

@@ -18,31 +18,24 @@ function Users(props){
 		console.log('/usuarios/' + id  ) 
 		props.history.push( '/usuarios/' + id );  
 	};  
-    return (
-		<div className="row">
-        <div className="col-2"><SideBar/></div>
 
-		<div className="container mt-5" align="center">
-      
-	  <h4>usaurios registrados</h4>
-	        
-	      <div className="row">
-
-	        <div className="col-md-12">
-
-	          <table className="table table-bordered">
+	function lister(dato){
+		console.log("el dato ES!")
+		console.log(dato.length)
+		if (dato != null && dato.length){
+			return (
+				<table className="table table-bordered">
 	            <thead className="thead-dark">
 	              <tr>
 	                <th scope="col">ID</th>
 	                <th scope="col">usuario</th>
 	                <th scope="col">Nombre</th>
 	                <th scope="col">Correo</th>
-					<th scope="col">ver</th>
+					<th scope="col">→</th>
 	              </tr>
 	            </thead> 
 	            <tbody>
-
-	            {data.map(item => (
+	            {dato.map(item => (
 
 	              <tr key={item.ID_usuario}>
 	                <td>{item.ID_usuario}</td>
@@ -53,10 +46,26 @@ function Users(props){
 	              </tr>
 
 	            ))}
-
 	            </tbody>
-
 	          </table>
+			)
+
+		} else {
+		 return(<div className="jumbotron bg-secondary">No hay información en estos momentos.</div>)
+		}
+	}; 
+    return (
+		<div className="row">
+        <div className="col-2"><SideBar/></div>
+
+		<div className="container mt-5" align="center">
+      
+	  <h4>Usuarios registrados</h4>
+	        
+	      <div className="row">
+
+	        <div className="col-md-12">
+			{lister(data)}
 
 	        </div>
 

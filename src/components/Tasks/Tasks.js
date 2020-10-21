@@ -20,6 +20,9 @@ function Tasks(props){
 		console.log('/tareas/' + id  ) 
 		props.history.push( '/tareas/' + id );  
 	};  
+	function toNew() {
+		props.history.push( '/tareas/nuevo');  
+	};  
 
     function task(tarea){
 		return(
@@ -69,9 +72,10 @@ function Tasks(props){
 	  <h4>Tareas registradas</h4>
 	        
 	      <div className="row">
+		  <div>  <button type="button" className="btn btn-primary btn-block" onClick={() => {toNew() }}>Nueva tarea</button> </div>
 
-	        <div className="col-md-12">
-
+	        <div className="col-md-12">		
+			
 	            {
                 weHadTask(data)
                 }
