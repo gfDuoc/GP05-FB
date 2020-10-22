@@ -1,3 +1,9 @@
+/*
+EMPRESA
+*P ID_empresa NUMBER
+* razonSocial VARCHAR2 (100)
+*/
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
@@ -45,45 +51,48 @@ function CompanyForm(props) {
 
     return (
         <div className="row">
-            <div className="col-2"><SideBar /></div>
-            {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
+            <div className="col-2"><SideBar /></div>         
             <div className="col">
+            {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
-                    <p> Nueva Empresa</p>
+                <div className="card-header">
+                            <h4>Nueva empresa:</h4>
+                        </div>
                     <form onSubmit={InsertCompany} >
+                    <div className="card-body">
                         <div className="form-group text-left">
-                            <label htmlFor="descripcion">ID empresa</label>
-                            <input type="text"
+                            <label htmlFor="ID_empresa">ID empresa</label>
+                            <input type="number"
                                 className="form-control"
-                                id="descripcion"
+                                id="ID_empresa"
                                 disabled="disabled"
-                                placeholder="de que se trata"
+                                placeholder="999"
                                 value={state.ID_empresa}
                                 onChange={handleChange}
                             />
                         </div>
                         <div className="form-group text-left">
-                            <label htmlFor="descripcion">Razon Social</label>
+                            <label htmlFor="razonSocial">Razon Social</label>
                             <input type="text"
                                 className="form-control"
-                                id="descripcion"
-                                placeholder="de que se trata"
+                                id="razonSocial"
+                                placeholder="nombre de la empresa"
                                 value={state.razonSocial}
                                 onChange={handleChange}
                             />
+                        </div>
                         </div>
                         <div className="card-footer">
                             <div className="row">
                                 <div className="col">
                                     <button type="submit" className="btn btn-outline-info">Guardar </button>
                                 </div>
-                                <div className="col">
+                                <div className="col-1">
                                     <button type="reset" className="btn btn-outline-secondary">Limpiar </button>
                                 </div>
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>

@@ -16,6 +16,9 @@ import TaskEdit from './components/Tasks/TaskEdit';
 import Positions from './components/Position/Lists';
 import PostionForm from './components/Position/New';
 import PositionEdit from './components/Position/Edit';
+import Companies from './components/Company/Companies';
+import CompanyForm from './components/Company/CompanyForm';
+import CompanyEdit from './components/Company/CompanyEdit';
 
 import {
   BrowserRouter as Router,
@@ -31,8 +34,10 @@ function App() {
     <Router>
     <div className="">
       <Header title={title} userName={userName}/>
-    
         <div className="container-fluid ">
+           { /*cambiar path segun la ruta requerida 
+              private route es un metodo custom que valida el token si no chutea al login
+           */}
           <Switch>
             <Route path="/" exact={true}>
             <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={updateUserName}/>
@@ -49,7 +54,7 @@ function App() {
             <PrivateRoute path="/usuarios" exact={true}> 
               <Users/>
             </PrivateRoute>
-            <PrivateRoute path="/usuarios/nuevo" exact={true}>
+            <PrivateRoute path="/usuarios/new" exact={true}>
               <UserForm/>
             </PrivateRoute>
             <PrivateRoute path="/usuarios/:id" exact={true}> 
@@ -78,6 +83,15 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/cargos/:id/edit" exact={true} > 
               <PositionEdit/>
+            </PrivateRoute>
+            <PrivateRoute path="/empresas" exact={true} > 
+              <Companies/>
+            </PrivateRoute>
+            <PrivateRoute path="/empresas/new" exact={true} > 
+              <CompanyForm/>
+            </PrivateRoute>
+            <PrivateRoute path="/empresas/:id/edit" exact={true} > 
+              <CompanyEdit/>
             </PrivateRoute>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>

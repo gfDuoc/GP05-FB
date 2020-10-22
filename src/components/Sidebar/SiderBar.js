@@ -33,19 +33,19 @@ function SideBar(props) {
                             <a className="nav-link" href="/cargos">Cargos</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/home">Unidades Internas</a>
+                            <a className="nav-link disabled" href="/#">Unidades Internas</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/home">Roles</a>
+                            <a className="nav-link disabled" href="/#">Roles</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/home">Flujos de Tareas</a>
+                            <a className="nav-link disabled" href="/#">Flujos de Tareas</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/home">Reportes</a>
+                            <a className="nav-link disabled" href="/#">Reportes</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/home">Empresas</a>
+                            <a className="nav-link" href="/empresas">Empresas</a>
                         </li>
                     </ul>
                 </nav>
