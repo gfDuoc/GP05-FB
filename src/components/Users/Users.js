@@ -63,7 +63,7 @@ function Users(props) {
 						<h4>Usuarios registrados</h4>
 					</div>
 					<div className="col-1">
-						<td><button className="btn btn-outline-success" onClick={() => { props.history.push("/usuarios" + '/new'); }}>Agregar</button>  </td>
+						<button className="btn btn-outline-success" onClick={() => { props.history.push("/usuarios" + '/new'); }}>Agregar</button>
 					</div>
 				</div>
 				<br/>

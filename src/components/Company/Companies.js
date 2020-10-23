@@ -9,7 +9,7 @@ function Companies(props) {
 	const [data, setData] = useState([]); console.log(props)
 	useEffect(() => {
 		const GetData = async () => {
-			const result = await axios(API_BASE_URL + laUrl);
+			const result = await axios(API_BASE_URL + "/empresas");
 			setData(result.data);
 		};
 		GetData();
@@ -58,7 +58,7 @@ function Companies(props) {
 					<h4>Empresas Registradas</h4>
 					</div>
 					<div className="col-1">
-					<td><button className="btn btn-outline-success" onClick={() => {props.history.push(laUrl + '/new'); }}>Agregar</button>  </td>
+					<button className="btn btn-outline-success" onClick={() => {props.history.push(laUrl + '/new'); }}>Agregar</button>
 					</div>
 				</div>
 				<br/>

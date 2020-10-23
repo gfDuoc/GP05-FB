@@ -40,8 +40,8 @@ function Positions(props) {
 					<tbody>
 						{dato.map(item => (
 
-							<tr key={item.ID_empresa}>
-								<td>{item.ID_empresa}</td>
+							<tr key={item.ID_cargo}>
+								<td>{item.ID_cargo}</td>
 								<td>{item.descripcion}</td>
 								<td><button className="btn btn-info" onClick={() => { showSingle(item.ID_empresa) }}>Editar</button>  </td>
 							</tr>
@@ -59,8 +59,16 @@ function Positions(props) {
 	return (
 		<div className="row">
 			<div className="col-2"><SideBar /></div>
-			<div className="container mt-5" align="center">
-				<h4>Listado de Cargos:</h4>
+			<div className="container mt-5" align="left">
+				<div className="row">
+					<div className="col">
+						<h4>Listado de Cargos:</h4>
+					</div>
+					<div className="col-1">
+						<td><button className="btn btn-outline-success" onClick={() => { props.history.push(laUrl + '/new'); }}>Agregar</button>  </td>
+					</div>
+				</div>
+				<br />
 				<div className="row">
 					<div className="col-md-12">
 						{lister(data)}

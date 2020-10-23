@@ -29,67 +29,72 @@ function Procesos(props){
 		props.history.push(laUrl + "/"+ id );  
 	};  
 
-    function Lister(datos){
-		return(
-			<div>
-				<div className="card">
-					<div className="card-header">
-						<b>ID:</b> {tarea.ID_tarea} <b>Nombre</b> {tarea.nombre}
-					</div>
-					<div className="card-body">
-						<div className="row">
-							<div className="col">
-								<p><b>estimado inicio:</b>{tarea.terminoRegistrado}</p>
-								<p><b>reail incio:</b>{tarea.terminoRegistrado}</p>
-							</div>
-							<div className="col">
-								<p><b>estimado cierre:</b> {tarea.terminoRegistrado}</p>
-						
-                        		<p><b>Real cierre:</b> {tarea.terminoRegistrado}</p>
-							</div>
-						</div>
-					</div>
-					<div className="card-footer"><b>observaciones:</b>{tarea.observaciones}
-						<br/>
-						<button type="button" className="btn btn-primary btn-block "  onClick={() => { showSingle(tarea.ID_tarea) }}>ver tarea</button>
-					</div>
-				</div>
-			</div>
-		)
-	};
+	function lister(dato) {
+		console.log("el dato ES!")
+		console.log(dato.length)
+		if (dato != null && dato.length) {
+			return (
+				<table className="table table-hover">
+					<thead className="thead-dark">
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">empresa</th>
+							<th scope="col">proceso</th>
+							<th scope="col">inicio</th>
+							<th scope="col">termino</th>
+							<th scope="col">tareas</th>
+							<th scope="col">→</th>
+						</tr>
+					</thead>
+					<tbody>
+						{dato.map(item => (
 
-    function weHadData(lista){
-        if (lista === 'null'){
-         return( <div> error al cargar</div>)
-        } else if ( Array.isArray(lista ) && lista.length === 0 ){
-         return( <div> no tiene tareas pendientes</div>)
-        } else if ( Array.isArray(lista ) && lista.length > 0){
-          return(<div><p>hay traeas pendientes</p>{lista.map(t =>(Lister(t)))}</div>)
-        } else {
-          return(<div>Error desconocido!</div>)
-        }
-      };
+							<tr key={item.ID_proceso}>
+								<td>{item.ID_proceso}</td>
+								<td>{item.empresa_ID}</td>
+								<td>{item.descripcion}</td>
+								<td>{item.inicio}</td>
+								<td>{item.termino}</td>
+								<td className="bg-secondary"><div className="progress-bar progress-bar-striped progress-bar-animated" style={{width: (item.ID_proceso*10)}}>{(item.ID_proceso*10)}</div></td>
+								<td><button className="btn btn-info" onClick={() => { showSingle(item.ID_usuario) }}>IR</button>  </td>
+							</tr>
+
+						))}
+					</tbody>
+				</table>
+			)
+
+		} else {
+			return (<div className="jumbotron bg-secondary">No hay información en estos momentos.</div>)
+		}
+	}
+
 
     return (
-        <div className="row">
-        <div className="col-2"><SideBar/></div>
-		<div className="container mt-5" align="center">
-      
-	  <h4>Tareas registradas</h4>
-	        
-	      <div className="row">
+		<div className="row">
+			<div className="col-2"><SideBar /></div>
+			<div className="container mt-5" align="left">
+				<div className="row">
+					<div className="col">
+						<h4>procesos registrados</h4>
+					</div>
+					<div className="col-2">
+						<button className="btn btn-outline-success btn-sm" onClick={() => { props.history.push("/procesos" + '/new'); }}>Crear a partid de modelo</button>
+					</div>
+					<div className="col-2">
+						<button className="btn btn-outline-success btn-sm" onClick={() => { props.history.push("/procesos" + '/new'); }}>crear nuevo proceso</button>
+					</div>
+				</div>
+				<br/>
+				<div className="row">
+					<div className="col-md-12">
+						{lister(data)}
 
-	        <div className="col-md-12">
+					</div>
 
-	            {
-                weHadData(data)
-                }
-
-	      </div>
-        
-    	</div>
+				</div>
+			</div>
 		</div>
-	</div>
 	)
 }
 

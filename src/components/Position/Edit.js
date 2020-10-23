@@ -77,12 +77,12 @@ function PositionEdit(props) {
                     <form onSubmit={InsertData} >
                     <div className="card-body">
                         <div className="form-group text-left">
-                            <label htmlFor="descripcion">ID cargo</label>
-                            <input type="text"
+                            <label htmlFor="ID_cargo">ID cargo</label>
+                            <input type="number"
                                 className="form-control"
-                                id="descripcion"
-                                disabled="disabled"
-                                placeholder="de que se trata"
+                                id="ID_cargo"
+                                readOnly value = {state.ID_cargo}
+                                placeholder="999"
                                 value={state.ID_cargo}
                                 onChange={handleChange}
                             />
