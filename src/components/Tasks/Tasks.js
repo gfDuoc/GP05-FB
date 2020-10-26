@@ -21,7 +21,7 @@ function Tasks(props){
 		props.history.push( '/tareas/' + id );  
 	};  
 	function toNew() {
-		props.history.push( '/tareas/nuevo');  
+		props.history.push( '/tareas/new');  
 	};  
 
     function task(tarea){
@@ -66,7 +66,7 @@ function Tasks(props){
 
     return (
         <div className="row">
-        <div className="col-2"><SideBar/></div>
+        <SideBar/>
 		<div className="container mt-5" align="center">
       
 	  <h4>Tareas registradas</h4>

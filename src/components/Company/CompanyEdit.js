@@ -64,7 +64,7 @@ function CompanyEdit(props) {
 
     return (
         <div className="row">
-            <div className="col-2"><SideBar /></div>
+            <SideBar/>
             <div className="col">
             {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">

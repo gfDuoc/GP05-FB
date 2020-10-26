@@ -67,7 +67,7 @@ function App() {
             <PrivateRoute path="/tareas" exact={true} > 
               <Tasks/>
             </PrivateRoute>
-            <PrivateRoute path="/tareas/nuevo" exact={true} > 
+            <PrivateRoute path="/tareas/new" exact={true} > 
               <TaskForm/>
             </PrivateRoute>
             <PrivateRoute path="/tareas/:id" exact={true} > 

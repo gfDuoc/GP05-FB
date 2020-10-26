@@ -58,7 +58,7 @@ function Positions(props) {
 
 	return (
 		<div className="row">
-			<div className="col-2"><SideBar /></div>
+			<SideBar/>
 			<div className="container mt-5" align="left">
 				<div className="row">
 					<div className="col">

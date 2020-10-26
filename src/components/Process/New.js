@@ -88,8 +88,7 @@ function ProcessForm(props) {
 
     return (
         <div className="row">
-            <div className="col-2"><SideBar /></div>
-
+            <SideBar />
             <div className="container mt-5" align="center">
                 {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card col-10">

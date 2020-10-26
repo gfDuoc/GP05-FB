@@ -1,26 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { API_BASE_URL } from '../../constants/apiContants';
-import axios from 'axios';
-import SideBar from '../Sidebar/SiderBar';
 
-function ShowTask(props) {
-	const url = API_BASE_URL + "/tareas/" + props.match.params.id;
-	console.log(url)
-	const [data, setData] = useState({});
-	console.log(props)
-	const [error, setError] = useState()
-
-	useEffect(() => {
-		const GetData = async () => {
-			// a falta de enpoints se esta usando los 2 de abajo, hay que reemplazar y probar cuando lo haya
-			//const result = await axios(url);  
-			//setData(result.data);  
-			const result = await axios(API_BASE_URL + "/tareas")
-			setData(result.data[props.match.params.id]);
-		};
-		GetData();
-	}, []);
+function ShowTaskCustom(props) {
 
 	function showTask(id) {
 		props.history.push('/tareas/' + id + '/edit');
@@ -31,10 +12,9 @@ function ShowTask(props) {
 	}
 
 	function taskExist(data) {
-		console.log(data)
 		if (data != null && Object.keys(data).length > 0) {
 			return (<div>
-				<div>
+				<div id= {data.ID_tarea}>
 					<div className="card">
 						<div className="card-header">
 							<b>ID:</b> {data.ID_tarea} <b>Nombre</b> {data.nombre}
@@ -75,23 +55,12 @@ function ShowTask(props) {
 
 	return (
 		<div className="row">
-			<SideBar/>
-			<div className="container mt-5" align="center">
-
-				<h4>Tarea: </h4>
-
-				<div className="row">
-
 					<div className="col-md-12">
-						{taskExist(data)}
+						{taskExist(props)}
 					</div>
-
-				</div>
-			</div>
 		</div>
-
 	)
 }
 
 
-export default withRouter(ShowTask);
+export default withRouter(ShowTaskCustom);

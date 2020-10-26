@@ -17,6 +17,7 @@ function SideBar(props) {
         }
         else {
             return (
+                <div className="col-2 bg-dark text-left">
                 <div className="sidebar-sticky  bg-dark">
                                     <nav id="sidebar" className="navbar  navbar-dark ">
                     <ul className="navbar-nav">
@@ -50,8 +51,7 @@ function SideBar(props) {
                     </ul>
                 </nav>
                 </div>
-
-
+                </div>
             )
         }
     }

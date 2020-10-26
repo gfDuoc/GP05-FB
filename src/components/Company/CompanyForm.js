@@ -51,36 +51,36 @@ function CompanyForm(props) {
 
     return (
         <div className="row">
-            <div className="col-2"><SideBar /></div>         
+            <SideBar />
             <div className="col">
-            {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
+                {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
-                <div className="card-header">
-                            <h4>Nueva empresa:</h4>
-                        </div>
+                    <div className="card-header">
+                        <h4>Nueva empresa:</h4>
+                    </div>
                     <form onSubmit={InsertCompany} >
-                    <div className="card-body">
-                        <div className="form-group text-left">
-                            <label htmlFor="ID_empresa">ID empresa</label>
-                            <input type="number"
-                                className="form-control"
-                                id="ID_empresa"
-                                disabled="disabled"
-                                placeholder="999"
-                                value={state.ID_empresa}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group text-left">
-                            <label htmlFor="razonSocial">Razon Social</label>
-                            <input type="text"
-                                className="form-control"
-                                id="razonSocial"
-                                placeholder="nombre de la empresa"
-                                value={state.razonSocial}
-                                onChange={handleChange}
-                            />
-                        </div>
+                        <div className="card-body">
+                            <div className="form-group text-left">
+                                <label htmlFor="ID_empresa">ID empresa</label>
+                                <input type="number"
+                                    className="form-control"
+                                    id="ID_empresa"
+                                    disabled="disabled"
+                                    placeholder="999"
+                                    value={state.ID_empresa}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="form-group text-left">
+                                <label htmlFor="razonSocial">Razon Social</label>
+                                <input type="text"
+                                    className="form-control"
+                                    id="razonSocial"
+                                    placeholder="nombre de la empresa"
+                                    value={state.razonSocial}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
                         <div className="card-footer">
                             <div className="row">
