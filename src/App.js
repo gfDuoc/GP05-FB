@@ -21,6 +21,8 @@ import CompanyForm from './components/Company/CompanyForm';
 import CompanyEdit from './components/Company/CompanyEdit';
 import Procesos from './components/Process/Lists';
 import ProcessForm from './components/Process/New';
+import SingleProcess from './components/Process/Single';
+import ProcessEdit from './components/Process/Edit';
 import {
   BrowserRouter as Router,
   Switch,
@@ -81,6 +83,12 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/procesos/new" exact={true} > 
               <ProcessForm/>
+            </PrivateRoute>
+            <PrivateRoute path="/procesos/:id" exact={true} > 
+              <SingleProcess/>
+            </PrivateRoute>
+            <PrivateRoute path="/procesos/:id/edit" exact={true} > 
+              <ProcessEdit/>
             </PrivateRoute>
             <PrivateRoute path="/cargos" exact={true} > 
               <Positions/>
