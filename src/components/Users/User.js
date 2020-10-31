@@ -73,8 +73,8 @@ function ShowUser(props) {
 	return (
 		<div className="row">
        <SideBar/>
-		<div className="container mt-5" >
-
+		<div className="col" >
+		<br></br>
 			<h4>ver Usuario</h4>
 			<div className="row">
 				<div className="col-md-12">

@@ -76,12 +76,10 @@ function ShowTask(props) {
 	return (
 		<div className="row">
 			<SideBar/>
-			<div className="container mt-5" align="center">
-
+			<div className="col" align="center">
+			<br></br>
 				<h4>Tarea: </h4>
-
 				<div className="row">
-
 					<div className="col-md-12">
 						{taskExist(data)}
 					</div>

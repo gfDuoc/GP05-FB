@@ -64,7 +64,8 @@ function EditUser(props) {
         return (
             <div className="row">
                 <SideBar/>
-                <div className="container mt-5" align="center">
+                <div className="col" align="center">
+                <br></br>
                 { error !== null &&   <div className="alert alert-danger alert-dismissible fade show">{error}</div> }
                     <div className="card col-10">
                         <h2> Editar usuario</h2>

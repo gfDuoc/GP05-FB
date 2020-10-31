@@ -43,7 +43,8 @@ function Home(props) {
   return (
     <div className="row ">
       <SideBar/>
-      <div className="container mt-5" align="center">
+      <div className="col" align="center">
+      <br></br>
         <div className="card  ">
           <div className="card-header">
             <h3>Bienvenido a Process S.A</h3>

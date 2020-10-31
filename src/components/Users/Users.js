@@ -57,7 +57,8 @@ function Users(props) {
 	return (
 		<div className="row">
 			<SideBar/>
-			<div className="container mt-5" align="left">
+			<div className="col" align="left">
+			<br></br>
 				<div className="row">
 					<div className="col">
 						<h4>Usuarios registrados</h4>

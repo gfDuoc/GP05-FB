@@ -89,8 +89,9 @@ function ProcessForm(props) {
     return (
         <div className="row">
             <SideBar />
-            <div className="container mt-5" align="center">
+            <div className="col" align="center">
                 {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
+                <br></br>
                 <div className="card col-10">
                     <h2> Nuevo usuario</h2>
                     <form onSubmit={insertData}>

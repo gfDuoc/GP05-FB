@@ -53,6 +53,7 @@ function CompanyForm(props) {
         <div className="row">
             <SideBar />
             <div className="col">
+            <br></br>
                 {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
                     <div className="card-header">
