@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { withRouter } from "react-router-dom";
-import { ACCESS_TOKEN_NAME } from '../../constants/apiContants';
+import { ACCESS_TOKEN_NAME, userContext } from '../../constants/apiContants';
 import { FaSignOutAlt } from 'react-icons/fa';
 function Header(props) {
-    const [userName, setUserName] = useState("Usuario");
+    const [userName, setUserName] = useState();
     const capitalize = (s) => {
         if (typeof s !== 'string') return ''
         return s.charAt(0).toUpperCase() + s.slice(1)
@@ -32,7 +32,6 @@ function Header(props) {
      }
 
     function tipeHeader(title) {
-     
         if (title === 'null' || title === 'Login') {
             return (
                 <nav className="navbar navbar-dark bg-secondary">
@@ -51,7 +50,7 @@ function Header(props) {
                     <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
                             <ul >
-                                <li className="badge badge-light">{userName}</li>
+                                <li className="badge badge-light">potato</li>
                                 <li className="badge badge-light">Empresa</li>
                             </ul>
                         </li>

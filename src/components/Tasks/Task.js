@@ -9,7 +9,7 @@ function ShowTask(props) {
 	console.log(url)
 	const [data, setData] = useState({});
 	console.log(props)
-	const [error, setError] = useState()
+	//const [error, setError] = useState()
 
 	useEffect(() => {
 		const GetData = async () => {

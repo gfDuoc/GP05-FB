@@ -13,8 +13,8 @@ function ShowTaskCustom(props) {
 
 	function taskExist(data) {
 		if (data != null && Object.keys(data).length > 0) {
-			return (<div>
-				<div id= {data.ID_tarea}>
+			return (
+				<div id={data.ID_tarea}>
 					<div className="card">
 						<div className="card-header">
 							<b>ID:</b> {data.ID_tarea} <b>Nombre</b> {data.nombre}
@@ -44,8 +44,7 @@ function ShowTaskCustom(props) {
 						</div>
 
 					</div>
-				</div>
-			</div>)
+				</div>)
 		} else {
 			return (<div>
 				<h1>La tarea no Existe</h1>
@@ -55,9 +54,9 @@ function ShowTaskCustom(props) {
 
 	return (
 		<div className="row">
-					<div className="col-md-12">
-						{taskExist(props)}
-					</div>
+			<div className="col-md-12">
+				{taskExist(props)}
+			</div>
 		</div>
 	)
 }

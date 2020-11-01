@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import './LoginForm.css';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../constants/apiContants';
+import { API_BASE_URL, ACCESS_TOKEN_NAME, userContext } from '../../constants/apiContants';
 import { withRouter } from "react-router-dom";
-
 function LoginForm(props) {
     const [state, setState] = useState({
         email: "",
@@ -32,6 +31,8 @@ function LoginForm(props) {
                         'successMessage': 'correcto, redirigiendo al home..'
                     }))
                     localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
+                    userContext.Provider = state;
+                    console.log(userContext);
                     props.updateUserName(state.email);
                     redirectToHome();
                     props.showError(null)
