@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import { withRouter } from "react-router-dom";
 import { ACCESS_TOKEN_NAME, userContext } from '../../constants/apiContants';
 import { FaSignOutAlt } from 'react-icons/fa';
 function Header(props) {
-    const [userName, setUserName] = useState();
+    const [userName, setUserName] = useState(null);
+    const {user, setUser} = useContext(userContext);
     const capitalize = (s) => {
         if (typeof s !== 'string') return ''
         return s.charAt(0).toUpperCase() + s.slice(1)
     }
+
+    useEffect(() => {
+        function checkuser(){
+            var existe = 'email' in userContext.Provider
+            if (userName != null && existe){
+                setUserName(userContext.Consumer);
+                console.log(userName)
+            } else {
+               // handleLogout()
+               console.log("header!")
+            }
+		};
+		checkuser();
+	}, []);
+
     let title = capitalize(props.location.pathname.substring(1, props.location.pathname.length))
     if (props.location.pathname === '/') {
         console.log("let's go!")
@@ -50,7 +66,7 @@ function Header(props) {
                     <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
                             <ul >
-                                <li className="badge badge-light">potato</li>
+                                <li className="badge badge-light">{userName}</li>
                                 <li className="badge badge-light">Empresa</li>
                             </ul>
                         </li>

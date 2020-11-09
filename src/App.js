@@ -29,26 +29,28 @@ import {
   Route
 } from "react-router-dom";
 import AlertComponent from './components/AlertComponent/AlertComponent';  
+import { userContext } from './constants/apiContants';
 
 
 function App() {
   const [title, updateTitle] = useState(null);
   const [errorMessage, updateErrorMessage] = useState(null);
-  const [userName, updateUserName] = useState(null);
-  return (
+  const [user, setUser] = useState(null);
+    return (
+      <userContext.Provider value={{user,setUser}}>
     <Router>
     <div className="">
-      <Header title={title} userName={userName}/>
+      <Header title={title} userName={user}/>
         <div className="container-fluid ">
            { /*cambiar path segun la ruta requerida 
               private route es un metodo custom que valida el token si no chutea al login
            */}
           <Switch>
             <Route path="/" exact={true}>
-            <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={updateUserName}/>
+            <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={user}/>
             </Route>
             <Route path="/login">
-              <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={updateUserName}/>
+              <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={user}/>
             </Route>
             <Route path="/register">
               <RegistrationForm showError={updateErrorMessage} updateTitle={updateTitle}/>
@@ -115,6 +117,7 @@ function App() {
         </div>
     </div>
     </Router>
+    </userContext.Provider>
   );
 }
 

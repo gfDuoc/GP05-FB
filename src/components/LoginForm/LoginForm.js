@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState } from 'react';
 import axios from 'axios';
 import './LoginForm.css';
 import { API_BASE_URL, ACCESS_TOKEN_NAME, userContext } from '../../constants/apiContants';
@@ -9,6 +9,7 @@ function LoginForm(props) {
         password: "",
         successMessage: null
     })
+    const {user, setUser} = useContext(userContext);
     const handleChange = (e) => {
         const { id, value } = e.target
         setState(prevState => ({
@@ -31,7 +32,7 @@ function LoginForm(props) {
                         'successMessage': 'correcto, redirigiendo al home..'
                     }))
                     localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                    userContext.Provider = state;
+                    setUser(state);
                     console.log(userContext);
                     props.updateUserName(state.email);
                     redirectToHome();
