@@ -1,35 +1,50 @@
-/*
-EMPRESA
-*P ID_empresa NUMBER
-* razonSocial VARCHAR2 (100)
-*/
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import { API_BASE_URL_ALT } from '../../constants/apiContants';
 import SideBar from '../Sidebar/SiderBar';
 
-function CompanyForm(props) {
-    var laUrl = "/empresas"
-    console.log(props)
+function ActivityForm(props) {
+    var laUrl = "/actividades/"
     const [error, setError] = useState(null)
+    const [isLoading, setLoading] = useState(true)
+    const [tarea, setTarea] = useState(0)
+    const [lista, setLista] = useState()
     const [state, setState] = useState({
-        ID_empresa: 0,
-        razonSocial: ""
+        id_actividad: 0,
+        descripcion: "string",
+        realizado: "n",
+        lista_id: 0
     })
-    const apiurl = API_BASE_URL_ALT+ laUrl ;
-    const InsertCompany = (e) => {
+    
+    useEffect(() => {
+        const Ready = async () =>{
+            if (props.location.state != null){
+                 console.log(props.location.state) 
+                 setLoading(false);
+                 setTarea(props.location.state.id_tarea)
+                 setLista(props.location.state.id_lista)
+                } 
+                else 
+                {props.history.goBack();}
+        };
+        Ready();
+    },[]);
+
+
+    const apiurl = API_BASE_URL_ALT + laUrl;
+    const Insert = (e) => {
         e.preventDefault();
         const data = {
-            id_empresa: state.ID_empresa,
-            razonsocial: state.razonSocial
+            descripcion: state.descripcion,
+            realizado: state.realizado,
+            lista_id: lista
         };
         console.log(data)
         axios.post(apiurl, data).then(function (response) {
             console.log(response)
-            if (response.status === 201 || response.status === 200)  {
-                props.history.push({pathname: laUrl , state:{detail:"empresa creada" }});
+            if (response.status === 201 || response.status === 200) {
+                props.history.push({ pathname: "/tareas/"+tarea, state: { detail: "actividad creada" } });
             }
             else if (response.code >= 400) {
                 setError("error 400");
@@ -41,6 +56,7 @@ function CompanyForm(props) {
             console.log(error);
         });
     };
+
     const handleChange = (e) => {
         setError(null);
         const { id, value } = e.target
@@ -48,41 +64,57 @@ function CompanyForm(props) {
             ...prevState,
             [id]: value
         }))
+        console.log(value)
+    }
+
+    if (isLoading) {
+        return (
+            <div className="App">
+                <div className="spinner-border spinner-border-xl"></div>
+                <h1>cargando...</h1>
+            </div>)
     }
 
     return (
         <div className="row">
             <SideBar />
             <div className="col">
-            <br></br>
+                <br></br>
                 {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card">
                     <div className="card-header">
-                        <h4>Nueva empresa:</h4>
+                        <h4>Nueva Actividad:</h4>
                     </div>
-                    <form onSubmit={InsertCompany} >
+                    <form onSubmit={Insert} >
                         <div className="card-body">
                             <div className="form-group text-left">
-                                <label htmlFor="ID_empresa">ID empresa</label>
+                                <label htmlFor="id_actividad">ID Actividad</label>
                                 <input type="number"
                                     className="form-control"
-                                    id="ID_empresa"
+                                    id="id_actividad"
                                     disabled="disabled"
-                                    placeholder="999"
-                                    value={state.ID_empresa}
+                                    placeholder="0"
+                                    value={state.id_actividad}
                                     onChange={handleChange}
                                 />
                             </div>
                             <div className="form-group text-left">
-                                <label htmlFor="razonSocial">Razon Social</label>
+                                <label htmlFor="descripcion">descripcion</label>
                                 <input type="text"
                                     className="form-control"
-                                    id="razonSocial"
-                                    placeholder="nombre de la empresa"
-                                    value={state.razonSocial}
+                                    id="descripcion"
+                                    placeholder=""
+                                    value={state.descripcion}
                                     onChange={handleChange}
                                 />
                             </div>
+                            <div className="form-group">
+                            <label htmlFor="proceso_ID">realizado</label>
+                            <select className="form-control" value={state.realizado} id="realizado" name="realizado" onChange={handleChange} required>
+                                <option key="realizado0" id="realizado"  value="n"> No </option>
+                                <option key="realizado1" id="realizado"  value="s"> Si </option>
+                            </select>
+                        </div>
                         </div>
                         <div className="card-footer">
                             <div className="row">
@@ -99,6 +131,6 @@ function CompanyForm(props) {
             </div>
         </div>
     )
-}
 
-export default withRouter(CompanyForm);
+}
+export default withRouter(ActivityForm);

@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { API_BASE_URL } from '../../constants/apiContants';
+import { API_BASE_URL_ALT } from '../../constants/apiContants';
 import axios from 'axios';
 import SideBar from '../Sidebar/SiderBar';
 
 function ShowUser(props) {
-	const url = API_BASE_URL + "/usuarios/" + props.match.params.id;
+	const url = API_BASE_URL_ALT + "/usuarios/" + props.match.params.id;
 	console.log(url)
 	const [data, setData] = useState({});
-	console.log(props)
-
+	const [perfiles, setPerfiles] = useState({})
+    const [cargos, setCargos] = useState({})
+	const [empresas, setEmpresas] = useState({})
+	var potato = null
+	if (props.location.state != null){ potato = props.location.state.detail;	};
+	
 	useEffect(() => {
 		const GetData = async () => {
-			// a falta de enpoints se esta usando los 2 de abajo, hay que reemplazar y probar cuando lo haya
-			//const result = await axios(url);  
-			//setData(result.data);  
-			const result = await axios(API_BASE_URL + "/usuarios")
-			setData(result.data[props.match.params.id]);
-			console.log(data)
+			const result = await axios(url);  
+			setData(result.data);  
+			const daPerfiles = await axios(API_BASE_URL_ALT + "/perfiles/"+result.data.perfil_id);
+			const daCargos = await axios(API_BASE_URL_ALT + "/cargos/"+result.data.cargo_id);
+            const daEmpresas = await axios(API_BASE_URL_ALT + "/empresas/"+result.data.cargo_id);
+			setPerfiles(daPerfiles.data);
+            setCargos(daCargos.data);
+            setEmpresas(daEmpresas.data);
 		};
 		GetData();
 	}, []);
@@ -37,26 +43,26 @@ function ShowUser(props) {
 				<div>
 					<div className="card">
 						<div className="card-header">
-							<b>Usuario ID:</b> {data.ID_usuario}
+							<b>Usuario ID:</b> {data.id_usuario}
 						</div>
 						<div className="card-body">
 							<div className="row">
 								<div className="col">
-									<p><b>usaurio:</b>{data.nombreUsuario}</p>
-									<p><b>Nombre:</b>{data.nombre}</p>
-									<p><b>Apellido:</b>{data.apellidos}</p>
+									<p><b>usaurio:</b> {data.nombreusuario}</p>
+									<p><b>Nombre:</b> {data.nombre}</p>
+									<p><b>Apellido:</b> {data.apellidos}</p>
 								</div>
 								<div className="col">
-									<p><b>correo:</b>{data.correo}</p>
-									<p><b>Perfil:</b>{data.perfil_ID}</p>
-									<p><b>Cargo:</b>{data.perfil_ID}</p>
-									<p><b>empresa:</b>{data.empresa_ID}</p>
+									<p><b>correo:</b> {data.correo}</p>
+									<p><b>Perfil:</b> {perfiles.descripcion}</p>
+									<p><b>Cargo:</b> {cargos.descripcion}</p>
+									<p><b>empresa:</b> {empresas.razonsocial}</p>
 								</div>
 							</div>
 						</div>
 						<div className="card-footer">
 							<div className="row">
-								<div className="col"><button type="button" className="btn btn-primary" onClick={() => { showSingle(data.ID_tarea) }}>Editar Tarea</button></div>
+								<div className="col"><button type="button" className="btn btn-primary" onClick={() => { showSingle(data.id_usuario) }}>Editar Usuario</button></div>
 								<div className="col-1"><button type="button" className="btn btn-secondary" onClick={() => { goBack() }}>Volver</button></div></div>
 						</div>
 
@@ -73,9 +79,12 @@ function ShowUser(props) {
 	return (
 		<div className="row">
        <SideBar/>
-		<div className="col" >
+		<div className="col"  >
 		<br></br>
+		{potato !== null && <div className="alert alert-info alert-dismissible fade show"> <button type="button" className="close" data-dismiss="alert" onClick={() => {potato = null}}>&times;</button> <strong>Info:</strong> {potato}</div>}
+		<div align="center">
 			<h4>ver Usuario</h4>
+			</div>
 			<div className="row">
 				<div className="col-md-12">
 				{taskExist(data)}

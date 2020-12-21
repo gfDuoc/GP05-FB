@@ -1,33 +1,39 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
-import { API_BASE_URL } from '../../constants/apiContants';
+import { API_BASE_URL_ALT } from '../../constants/apiContants';
 import SideBar from '../Sidebar/SiderBar';
 
+// "id_cargo": 0,
+// "descripcion": "string"
+
 function PostionForm(props) {
+    var apiUrl = API_BASE_URL_ALT+"/cargos/"
     var laUrl = "/cargos"
+    console.log(props)
     const [error, setError] = useState(null)
     const [state, setState] = useState({
-        ID_cargo: 0,
+        id_cargo: 0,
         descripcion: ""
     })
-    const apiurl = API_BASE_URL + laUrl + "/new";
+
+
     const insertData = (e) => {
         e.preventDefault();
         const data = {
-            ID_cargo: state.ID_cargo,
+            ID_cargo: 0,
             descripcion: state.descripcion
         };
         console.log(data)
-        axios.post(apiurl, data).then(function (response) {
+        axios.post(apiUrl, data).then(function (response) {
             console.log(response)
-            if (response.status === 201) {
-                props.history.push(laUrl + '/' + response.data.id);
+            if (response.status === 201 || response.status === 200) {
+                props.history.push({pathname: laUrl , state:{detail:"cargo creado" }});
             }
             else if (response.code >= 400) {
                 setError("error 400");
             } else {
-                setError("error X0x")
+                setError("error X0X")
             }
         }).catch(function (error) {
             setError("error 500");
@@ -62,7 +68,7 @@ function PostionForm(props) {
                                 id="descripcion"
                                 disabled="disabled"
                                 placeholder="de que se trata"
-                                value={state.ID_cargo}
+                                value={state.id_cargo}
                                 onChange={handleChange}
                             />
                         </div>
@@ -88,7 +94,7 @@ function PostionForm(props) {
                             </div>
                         </div>
                     </form>
-
+                    <button type="reset" className="btn btn-outline-dangar" onClick={()=>{   props.history.push({pathname: laUrl , state:{detail:"empresa creada"}});}}>Limpiar </button>
                 </div>
             </div>
         </div>

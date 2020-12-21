@@ -40,9 +40,9 @@ function ToModal(props) {
                     <tbody>
                         {dato.map(item => (
 
-                            <tr key={item.ID_proceso}>
-                                <td>{item.ID_proceso}</td>
-                                <td>{item.empresa_ID}</td>
+                            <tr key={"ta"+item.id_proceso}>
+                                <td>{item.id_proceso}</td>
+                                <td>{item.empresa_id}</td>
                                 <td>{item.descripcion}</td>
                                 <td>{item.inicio}</td>
                                 <td>{item.termino}</td>

@@ -1,55 +1,50 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
-import { API_BASE_URL } from '../../constants/apiContants';
+import { API_BASE_URL_ALT } from '../../constants/apiContants';
 import SideBar from '../Sidebar/SiderBar';
 
-/*
-CARGO
-P* ID_cargo NUMBER
-* descripcion VARCHAR2 (80)
-*/
-
+// "id_cargo": 0,
+// "descripcion": "string"
 
 function PositionEdit(props) {
-    var laUrl = "/cargos"
+    var apiUrl = API_BASE_URL_ALT+"/cargos/"+props.match.params.id
     const [error, setError] = useState(null)
+    const [isLoading, setLoading] = useState(true)
+    const [message, setMessage] = useState(null)
     const [state, setState] = useState({
-        ID_cargo: 0,
+        id_cargo: 0,
         descripcion: ""
     })
 
+    if (props.location.state != null){setMessage(props.location.state.detail)}
     useEffect(() => {
         const GetData = async () => {
-            // descomentar eesto
-           // const result = await axios(apiurl);
-           // setState(result.data);
-           // y sacar lo de abago
-           const result = await axios(API_BASE_URL + "/cargos")
-           console.log(result.data[props.match.params.id]);
-           setState(result.data[props.match.params.id]);
-           console.log(state);
+           const result = await axios(apiUrl)
+           setState(result.data);
+           setLoading(false);
         };
         GetData();
     }, []);
 
-    const apiurl = API_BASE_URL + laUrl + "/new";
     const InsertData = (e) => {
         e.preventDefault();
         const data = {
-            ID_cargo: state.ID_cargo,
+            id_cargo: state.id_cargo,
             descripcion: state.descripcion
         };
         console.log(data)
-        axios.patch(apiurl, data).then(function (response) {
+        axios.put(apiUrl, data).then(function (response) {
             console.log(response)
-            if (response.status === 201) {
-                props.history.push(laUrl + '/' + response.data.id);
+            if (response.status === 201 || response.status === 200) {
+                setMessage("Cargo Actualizado")
             }
             else if (response.code >= 400) {
                 setError("error 400");
+                console.log(response);
             } else {
                 setError("error X0x")
+                console.log(response);
             }
         }).catch(function (error) {
             setError("error 500");
@@ -59,10 +54,15 @@ function PositionEdit(props) {
     const handleChange = (e) => {
         setError(null);
         const { id, value } = e.target
-        setState(prevState => ({
-            ...prevState,
-            [id]: value
-        }))
+        setState(prevState => ({...prevState,[id]: value}))
+    }
+    
+    if (isLoading) {
+        return (
+            <div className="App">
+                <div className="spinner-border spinner-border-xl"></div>
+                <h1>cargando...</h1>
+            </div>)
     }
 
     return (
@@ -71,6 +71,7 @@ function PositionEdit(props) {
             <div className="col">
             <br></br>
             {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
+            {message !== null && <div className="alert alert-info alert-dismissible fade show"> <button type="button" className="close" data-dismiss="alert" onClick={()=>{setMessage(null)}}>&times;</button> <strong>Info:</strong> {message}</div>}
                 <div className="card">
                 <div className="card-header">
                 <h4>Editar Cargo:</h4>
@@ -78,13 +79,12 @@ function PositionEdit(props) {
                     <form onSubmit={InsertData} >
                     <div className="card-body">
                         <div className="form-group text-left">
-                            <label htmlFor="ID_cargo">ID cargo</label>
+                            <label htmlFor="id_cargo">ID cargo</label>
                             <input type="number"
                                 className="form-control"
-                                id="ID_cargo"
-                                readOnly value = {state.ID_cargo}
+                                id="id_cargo"
+                                readOnly value = {state.id_cargo}
                                 placeholder="999"
-                                value={state.ID_cargo}
                                 onChange={handleChange}
                             />
                         </div>

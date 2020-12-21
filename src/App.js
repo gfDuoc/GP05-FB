@@ -23,34 +23,36 @@ import Procesos from './components/Process/Lists';
 import ProcessForm from './components/Process/New';
 import SingleProcess from './components/Process/Single';
 import ProcessEdit from './components/Process/Edit';
+import ActivityForm from './components/Activities/ActivityForm';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 import AlertComponent from './components/AlertComponent/AlertComponent';  
-import { userContext } from './constants/apiContants';
+import { UserContext } from './constants/apiContants';
 
 
 function App() {
   const [title, updateTitle] = useState(null);
   const [errorMessage, updateErrorMessage] = useState(null);
-  const [user, setUser] = useState(null);
+  const [userName, updateUserName] = useState(null);
+  console.log("nanana!")
     return (
-      <userContext.Provider value={{user,setUser}}>
+  <UserContext.Provider value={{ userName, updateUserName }}>
     <Router>
     <div className="">
-      <Header title={title} userName={user}/>
+    <Header title={title} userName={userName} />
         <div className="container-fluid ">
            { /*cambiar path segun la ruta requerida 
               private route es un metodo custom que valida el token si no chutea al login
            */}
           <Switch>
             <Route path="/" exact={true}>
-            <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={user}/>
+            <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={updateUserName}/>
             </Route>
             <Route path="/login">
-              <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={user}/>
+              <LoginForm showError={updateErrorMessage} updateTitle={updateTitle} updateUserName={updateUserName}/>
             </Route>
             <Route path="/register">
               <RegistrationForm showError={updateErrorMessage} updateTitle={updateTitle}/>
@@ -112,12 +114,15 @@ function App() {
             <PrivateRoute path="/empresas/:id/edit" exact={true} > 
               <CompanyEdit/>
             </PrivateRoute>
+            <PrivateRoute path="/acitivades/new" exact={true}>
+            <ActivityForm/>
+            </PrivateRoute>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>
         </div>
     </div>
     </Router>
-    </userContext.Provider>
+    </UserContext.Provider>
   );
 }
 

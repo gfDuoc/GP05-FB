@@ -27,6 +27,9 @@ function SideBar(props) {
                             <span className="text-white" > MENU</span>
                         </li>
                         <li className="nav-item">
+                            <a className="nav-link" href="/Home">Home</a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="/tareas">Tareas</a>
                         </li>
                         <li className="nav-item">
@@ -38,17 +41,17 @@ function SideBar(props) {
                         <li className="nav-item">
                             <a className="nav-link" href="/cargos">Cargos</a>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item hide-it">
                             <a className="nav-link disabled" href="/#">Unidades Internas</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/empresas">Empresas</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link disabled" href="/#">Roles</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link disabled" href="/#">Reportes</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/empresas">Empresas</a>
                         </li>
                     </ul>
                 </nav>

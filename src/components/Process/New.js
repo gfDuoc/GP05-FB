@@ -1,64 +1,71 @@
-/* PROCESO
-{ID_proceso: 0,
-descripcion: "",
-modelo: "",
-inicio: "",
-termino: "",
-detalle: "",
-empresa_ID: 0}
-*/
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
-import { API_BASE_URL } from '../../constants/apiContants';
+import { API_BASE_URL_ALT } from '../../constants/apiContants';
 import SideBar from '../Sidebar/SiderBar';
+import moment from 'moment';
+/*
+  "id_proceso": 0,
+  "descripcion": "string",
+  "modelo": "string",
+  "inicio": "2020-12-20T02:30:46.670Z",
+  "termino": "2020-12-20T02:30:46.670Z",
+  "detalle": "string",
+  "empresa_id": 0
+*/
 
 function ProcessForm(props) {
-    const [option, setoption] = useState([]);
+    const [isLoading, setLoading] = useState(true)
+    const [empresas, setEmpresas] = useState([])
     const [error, setError] = useState(null)
     const [state, setState] = useState({
-        ID_proceso: 0,
+        id_proceso: 0,
         descripcion: "",
-        modelo: "",
+        modelo: 0,
         inicio: "",
         termino: "",
         detalle: "",
-        empresa_ID: 0
+        empresa_id: 0
     }
     );
-    const apiUrl = API_BASE_URL + "/usuarios/new";
+    const apiUrl = API_BASE_URL_ALT + "/procesos/";
 
     useEffect(() => {
         const GetData = async () => {
-            const result = await axios(apiUrl);
-            setoption(result.data);
+            if (props.location.state != null){
+                 setState(props.location.state)
+                console.log(props.location.state)
+                }
+            const daEmpresas = await axios(API_BASE_URL_ALT + "/empresas");
+            setEmpresas(daEmpresas.data);
+            setLoading(false);
         };
         GetData();
-    }, [option]);
+    }, []);
 
     const insertData = (e) => {
         e.preventDefault();
         const data = {
-            ID_proceso: 0,
+            id_proceso: 0,
             descripcion: state.descripcion,
             modelo: state.modelo,
-            inicio: state.inicio,
-            termino: state.termino,
+            inicio: toDator(state.inicio),
+            termino: toDator(state.termino),
             detalle: state.descripcion,
-            empresa_ID: state.empresa_ID
+            empresa_id: state.empresa_id
         };
         console.log(data)
         axios.post(apiUrl, data)
             .then(function (response) {
                 console.log(response)
-                if (response.status === 201) {
-                    props.history.push('/usuarios/' + response.data.id);
+                if (response.status === 201 || response.status === 200) {
+                    props.history.push('/procesos/' + response.data.id_proceso);
                 }
                 else if (response.code >= 400) {
                     setError("error 400");
                 }
                 else {
-                    setError("error x0x");
+                    setError("error X0X");
                 }
             })
             .catch(function (error) {
@@ -73,18 +80,31 @@ function ProcessForm(props) {
     }
 
     function makeAselect(dato) {
-        if (dato.lenght > 0) {
-
-            return (
-                <option value={dato.id}>{dato.descripcion}</option>
-            )
-        } else {
-            return (
-                <option disabled selected value> -elija una opcion- </option>
-            )
+        var options = []
+        if (dato.length > 0) {
+            options.push(dato.map(item => (<option key={"" + Object.keys(item)[0] + Object.values(item)[0]} id={"" + Object.keys(item)[0] + Object.values(item)[0]} value={Object.values(item)[0]}>{Object.values(item)[1]}</option>)))
         }
-
+        return options
     }
+
+
+    function toDator(valor) {
+        if (valor != null) {
+            var d = (Date.parse(valor))
+            return (moment(d).format())
+        }
+        else { return (null) }
+    }
+
+    if (isLoading) {
+        return (
+            <div className="App">
+                <div className="spinner-border spinner-border-xl"></div>
+                <h1>cargando...</h1>
+            </div>)
+    }
+
+
 
     return (
         <div className="row">
@@ -93,17 +113,17 @@ function ProcessForm(props) {
                 {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <br></br>
                 <div className="card col-10">
-                    <h2> Nuevo usuario</h2>
+                    <h2> Nuevo proceso</h2>
                     <form onSubmit={insertData}>
                         <div className="form-group text-left">
-                            <label htmlFor="ID_proceso">ID</label>
+                            <label htmlFor="id_proceso">ID</label>
                             <input type="number"
                                 className="form-control"
-                                id="ID_proceso"
-                                name="ID_proceso"
+                                id="id_proceso"
+                                name="id_proceso"
                                 disabled="true"
                                 placeholder="0"
-                                value={state.ID_proceso}
+                                value={state.id_proceso}
                                 onChange={handleChange}
                             />
                         </div>
@@ -119,29 +139,27 @@ function ProcessForm(props) {
                             />
                         </div>
                         <div className="row">
-                            <div className="col-2">
-                                <div className="form-group text-left">
-                                    <label htmlFor="descripcion">tipo modelo</label>
-                                    <input type="checkbox"
-                                        className="form-control"
-                                        id="tipo"
-                                        name="tipo"
-                                        checked={state.modelo}
-                                        onChange={handleChange}
-                                    />
+                            <div className="col">
+                                <div className="form-group">
+                                    <label htmlFor="modelo">Tipo</label>
+                                    <select className="form-control" value={state.modelo} id="modelo" name="modelo" onChange={handleChange} required>
+                                        <option key="empo0" id="empr0"  value="0"> Normal </option>
+                                        <option key="empo1" id="empr1"  value="1"> Modelo </option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="col">
                                 <div className="form-group">
                                     <label htmlFor="proceso_ID">Empresa</label>
-                                    <select className="form-control" id="Empresa_ID">
-                                        {makeAselect(option)}
+                                    <select className="form-control" value={state.empresa_id} id="empresa_id" name="empresa_id" onChange={handleChange} required>
+                                        <option key="empo0" id="empr0" disabled value="0"> -elija una opcion- </option>
+                                        {makeAselect(empresas)}
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div className="form-group text-left">
-                            <label htmlFor="descripcion">inicio: </label>
+                            <label htmlFor="inicio">inicio: </label>
                             <input type="date"
                                 className="form-control"
                                 id="inicio"
@@ -152,7 +170,18 @@ function ProcessForm(props) {
                             />
                         </div>
                         <div className="form-group text-left">
-                            <label htmlFor="descripcion">detalle: </label>
+                            <label htmlFor="termino">termino: </label>
+                            <input type="date"
+                                className="form-control"
+                                id="termino"
+                                name="termino"
+                                placeholder=""
+                                value={state.termino}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group text-left">
+                            <label htmlFor="detalle">detalle: </label>
                             <textarea
                                 className="form-control"
                                 id="detalle"

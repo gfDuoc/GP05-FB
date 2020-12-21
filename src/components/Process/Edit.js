@@ -1,66 +1,73 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { withRouter } from "react-router-dom";
-import { API_BASE_URL } from '../../constants/apiContants';
+import { API_BASE_URL_ALT } from '../../constants/apiContants';
 import SideBar from '../Sidebar/SiderBar';
-
+import moment from 'moment';
 /*
-{
-ID_proceso: 0,
-descripcion: "",
-modelo: "",
-inicio: "",
-termino: "",
-detalle: "",
-empresa_ID: 0
-}
+  "id_proceso": 0,
+  "descripcion": "string",
+  "modelo": "string",
+  "inicio": "2020-12-20T02:30:46.670Z",
+  "termino": "2020-12-20T02:30:46.670Z",
+  "detalle": "string",
+  "empresa_id": 0
 */
 
 function ProcessEdit(props) {
-    var laUrl = "/procesos"
+    const [isLoading, setLoading] = useState(true)
+    const [empresas, setEmpresas] = useState([])
     const [error, setError] = useState(null)
-    const [option, setoption] = useState([]);
     const [state, setState] = useState({
-        ID_proceso: 0,
+        id_proceso: 0,
         descripcion: "",
-        modelo: "",
+        modelo: 0,
         inicio: "",
         termino: "",
         detalle: "",
-        empresa_ID: 0
-    })
+        empresa_id: 0
+    }
+    );
+    const apiUrl = API_BASE_URL_ALT + "/procesos/" + props.match.params.id;
 
     useEffect(() => {
         const GetData = async () => {
-            // descomentar eesto
-           // const result = await axios(apiurl);
-           // setState(result.data);
-           // y sacar lo de abago
-           const result = await axios(API_BASE_URL + "/procesos")
-           console.log(result.data[props.match.params.id]);
-           setState(result.data[props.match.params.id]);
-           console.log(state);
+            const daEdit = await axios(apiUrl)
+            const daEmpresas = await axios(API_BASE_URL_ALT + "/empresas");
+            dataFomtater(daEdit.data)
+            setState(daEdit.data)
+            setEmpresas(daEmpresas.data);
+            setLoading(false);
         };
         GetData();
     }, []);
 
-    const apiurl = API_BASE_URL + laUrl + "/"+ state.ID_proceso;
     const InsertData = (e) => {
         e.preventDefault();
         const data = {
-            ID_cargo: state.ID_cargo,
-            descripcion: state.descripcion
+            id_proceso: state.id_proceso,
+            descripcion: state.descripcion,
+            modelo: state.modelo,
+            inicio: toDator(state.inicio),
+            termino: toDator(state.termino),
+            detalle: state.detalle,
+            empresa_id: state.empresa_id
         };
         console.log(data)
-        axios.patch(apiurl, data).then(function (response) {
+        axios.put(apiUrl, data).then(function (response) {
             console.log(response)
-            if (response.status === 201) {
-                props.history.push(laUrl + '/' + response.data.id);
+            if (response.status === 201 || response.status === 200) {
+                props.history.push(
+                    {
+                        pathname: '/procesos/' + response.data.id_proceso,
+                        state: { detail: "proceso Actualizado" }
+                    }
+                );
             }
             else if (response.code >= 400) {
                 setError("error 400");
             } else {
-                setError("error X0x")
+                setError("error X0X")
             }
         }).catch(function (error) {
             setError("error 500");
@@ -74,46 +81,70 @@ function ProcessEdit(props) {
             ...prevState,
             [id]: value
         }))
+        console.log(state)
     }
 
     function goBack() {
-		props.history.goBack();
+        props.history.goBack();
     }
-    
-    
-    function makeAselect(dato) {
-        if (dato.lenght > 0) {
 
-            return (
-                <option value={dato.id}>{dato.descripcion}</option>
-            )
-        } else {
-            return (
-                <option disabled selected value> -elija una opcion- </option>
-            )
+    function dataFomtater(valor) {
+        var d = null
+        if (valor.inicio != null) {
+             d = (moment(valor.inicio).format('YYYY-MM-DD'))
+            valor.inicio = d
         }
-
+        if (valor.termino != null) {
+             d = (moment(valor.termino).format('YYYY-MM-DD'))
+            valor.termino = d
+        }
     }
 
+    function toDator(valor) {
+        if (valor != null) {
+            var d = (Date.parse(valor))
+            return (moment(d).format())
+        }
+        else { return (null) }
+    }
+
+
+
+    function makeAselect(dato) {
+        var options = []
+        if (dato.length > 0) {
+            options.push(dato.map(item => (<option key={"" + Object.keys(item)[0] + Object.values(item)[0]} id={"" + Object.keys(item)[0] + Object.values(item)[0]} value={Object.values(item)[0]}>{Object.values(item)[1]}</option>)))
+        }
+        return options
+    }
+
+
+    if (isLoading) {
+        return (
+            <div className="App">
+                <div className="spinner-border spinner-border-xl"></div>
+                <h1>cargando...</h1>
+            </div>)
+    }
 
     return (
         <div className="row">
             <SideBar />
             <div className="col" align="center">
-            <br></br>
+                <br></br>
                 {error !== null && <div className="alert alert-danger alert-dismissible fade show">{error}</div>}
                 <div className="card col-10">
-                    <h2> Nuevo usuario</h2>
+                    <h2> Editar Proceso</h2>
                     <form onSubmit={InsertData}>
                         <div className="form-group text-left">
                             <label htmlFor="ID_proceso">ID</label>
                             <input type="number"
                                 className="form-control"
-                                id="ID_proceso"
-                                name="ID_proceso"
+                                id="id_proceso"
+                                name="id_proceso"
                                 disabled="true"
                                 placeholder="0"
-                                value={state.ID_proceso}
+                                value={state.id_proceso}
                                 onChange={handleChange}
                             />
                         </div>
@@ -130,22 +161,20 @@ function ProcessEdit(props) {
                         </div>
                         <div className="row">
                             <div className="col-2">
-                                <div className="form-group text-left">
-                                    <label htmlFor="descripcion">tipo modelo</label>
-                                    <input type="checkbox"
-                                        className="form-control"
-                                        id="tipo"
-                                        name="tipo"
-                                        checked={state.modelo}
-                                        onChange={handleChange}
-                                    />
+                            <div className="form-group">
+                                    <label htmlFor="modelo">Tipo</label>
+                                    <select className="form-control" value={state.modelo} id="modelo" name="modelo" onChange={handleChange} required>
+                                        <option key="empo0" id="empr0"  value="0"> Normal </option>
+                                        <option key="empo1" id="empr1"  value="1"> Modelo </option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="col">
                                 <div className="form-group">
                                     <label htmlFor="proceso_ID">Empresa</label>
-                                    <select className="form-control" id="Empresa_ID">
-                                        {makeAselect(option)}
+                                    <select className="form-control" value={state.empresa_id} id="empresa_id" name="empresa_id" onChange={handleChange} required>
+                                        <option key="empo0" id="empr0" disabled value="0"> -elija una opcion- </option>
+                                        {makeAselect(empresas)}
                                     </select>
                                 </div>
                             </div>
@@ -156,8 +185,17 @@ function ProcessEdit(props) {
                                 className="form-control"
                                 id="inicio"
                                 name="inicio"
-                                placeholder=""
                                 value={state.inicio}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group text-left">
+                            <label htmlFor="termino">termino: </label>
+                            <input type="date"
+                                className="form-control"
+                                id="termino"
+                                name="termino"
+                                value={state.termino}
                                 onChange={handleChange}
                             />
                         </div>
@@ -179,7 +217,7 @@ function ProcessEdit(props) {
                                     <button type="submit" className="btn btn-outline-info">Guardar </button>
                                 </div>
                                 <div className="col">
-                                <button type="button" className="btn btn-outline-secondary" onClick={() => { goBack() }}>Volver</button>
+                                    <button type="button" className="btn btn-outline-secondary" onClick={() => { goBack() }}>Volver</button>
                                 </div>
                             </div>
                         </div>
@@ -191,5 +229,6 @@ function ProcessEdit(props) {
         </div>
     )
 }
+
 
 export default withRouter(ProcessEdit);
