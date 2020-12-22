@@ -6,9 +6,9 @@ import SideBar from '../Sidebar/SiderBar';
 
 function Companies(props) {
 	const laUrl = API_BASE_URL_ALT +"/empresas/";
-	console.log(laUrl)
+	const  power = localStorage.getItem("idPerfil")
+	console.log(power)
 	const [data, setData] = useState([]);
-	console.log(props);
 	const [isLoading, setLoading] = useState(true)
 	var potato = null
 	if (props.location.state != null){ potato = props.location.state.detail;	};
@@ -18,24 +18,16 @@ function Companies(props) {
 			const result = await axios( laUrl);
 			setData(result.data);
 			setLoading(false);
-			console.log(result);
-			console.log(result.data);
-			console.log(data);
 		};
 		GetData();
 	}, []);
 
 	function ShowCompany(id) {
-		console.log('/empresas/' + id + '/edit')
 		props.history.push('/empresas/' + id + '/edit');
 	};
 
 	function lister(dato) {
-		console.log("el dato ES!")
-		console.log(dato.length)
-		console.log(dato.lenght )
 		if (dato != null && dato.length) {
-			console.log("potato")
 			return (
 				<table className="table table-bordered">
 					<thead className="thead-dark">
@@ -49,10 +41,9 @@ function Companies(props) {
 						{dato.map(item => (
 							
 							<tr key={item.id_empresa}>
-							{console.log(item)}
 								<td>{item.id_empresa}</td>
 								<td>{item.razonsocial}</td>
-								<td><button className="btn btn-info" onClick={() => { ShowCompany(item.id_empresa) }}>Editar</button>  </td>
+								<td><button className="btn btn-info"  disabled={power !== "1" ? true: false} onClick={() => { ShowCompany(item.id_empresa) }}>Editar</button>  </td>
 							</tr>
 
 						))}
@@ -61,7 +52,6 @@ function Companies(props) {
 			)
 
 		} else {
-			console.log("banana")
 			return (<div className="jumbotron bg-secondary">No hay información en estos momentos.</div>)
 		}
 	}
@@ -84,7 +74,7 @@ function Companies(props) {
 						<h4>Empresas Registradas</h4>
 					</div>
 					<div className="col-1">
-						<button className="btn btn-outline-success" onClick={() => { props.history.push('/empresas/new'); }}>Agregar</button>
+						<button className= {power !== "1" ? "btn btn-outline-success disabled hide-it " : "btn btn-outline-success "} onClick={() => { props.history.push('/empresas/new'); }}>Agregar</button>
 					</div>
 				</div>
 				<br />

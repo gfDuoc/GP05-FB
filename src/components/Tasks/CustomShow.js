@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
-import { createPortal } from 'react-dom';
 
 function ShowTaskCustom(props) {
 	const statusTypo = [
@@ -35,7 +34,7 @@ function ShowTaskCustom(props) {
 	}
 
 	function showTask(id) {
-		props.history.push('/tareas/' + id + '/edit');
+		props.history.push('/tareas/' + id);
 	};
 
 	function goBack() {
@@ -73,7 +72,7 @@ function ShowTaskCustom(props) {
 						</div>
 						<div className="card-footer">
 							<div className="row">
-								<div className="col"><button type="button" className="btn btn-primary" onClick={() => { showTask(data.id_tarea) }}>Editar Tarea</button></div>
+								<div className="col"><button type="button" className="btn btn-primary" onClick={() => { showTask(data.id_tarea) }}>ver  Tarea</button></div>
 								<div className="col"><button type="button" className="btn btn-secondary" onClick={() => { goBack() }}>Volver</button></div></div>
 						</div>
 

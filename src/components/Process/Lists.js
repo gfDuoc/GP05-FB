@@ -30,10 +30,12 @@ function Procesos(props) {
 			const respGlobal = await axios(API_BASE_URL_ALT + laUrl);
 			//const respRepos = await axios(API_BASE_URL_ALT + laUrl);
 			const recompa = await axios(API_BASE_URL_ALT + "/empresas")
+			const daTareas = await axios(API_BASE_URL_ALT + "/tareas")
 			var datos = respGlobal.data
 			var compa = recompa.data
+			var tareas = daTareas.data
 			datos.forEach(element => {
-				fixer(element, compa)
+				fixer(element, compa, tareas)
 			});
 			setData(datos);
 			setModelo(separator(datos));
@@ -69,14 +71,23 @@ function Procesos(props) {
 		return d
     }
 
-	function fixer(dicto, empre) {
+	function fixer(dicto, empre,tareas) {
 		dicto.inicio = toDator(dicto.inicio)
 		dicto.termino = toDator(dicto.termino)
+		dicto["tareas"] = 0
+		dicto["dones"] = 0
 		if (dicto.modelo > 0) { dicto.modelo = "Si" } else { dicto.modelo = "No" }
 		empre.forEach(element => {
 			if (dicto.empresa_id === element.id_empresa) {
 				dicto["razonsocial"] = element.razonsocial
 			}
+		tareas.forEach(element =>{
+			if (dicto.id_proceso === element.proceso_id){
+			 if	(dicto["tareas"] != null){ dicto["tareas"] = dicto["tareas"]+1 } else { dicto["tareas"] = 1}
+			 if	(element.estadotarea_id != 3){ dicto["dones"] = dicto["dones"]+1 }
+			} 
+		}
+			)
 		});
 	}
 
@@ -124,7 +135,7 @@ function Procesos(props) {
 								<td>{item.inicio}</td>
 								<td>{item.termino}</td>
 								<td>{item.modelo}</td>
-								<td className="bg-secondary"><div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: (item.id_proceso * 10) }}>{(item.id_proceso * 10)}</div></td>
+								<td className="bg-secondary"> <div className={item.tareas >0 ? "progress-bar progress-bar-striped progress-bar-animated ": "hide-it" }  style={{ width: ((item.dones/item.tareas) * 100) }}>{((item.dones/item.tareas) * 100|0)}</div></td>
 								<td><button className="btn btn-info" onClick={() => { showBase(item.id_proceso) }}>IR</button>  </td>
 							</tr>
 

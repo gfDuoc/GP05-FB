@@ -21,14 +21,17 @@ function SingleProcess(props) {
 	const [data, setData] = useState({});
 	const [empresa, setEmpresa] = useState({});
 	const [isLoading, setLoading] = useState(true)
+	const [tasks, setTasks] = useState([]);
 	var potato = null
-	if (props.location.state != null){ potato = props.location.state.detail;	};
+	if (props.location.state != null) { potato = props.location.state.detail; };
 	useEffect(() => {
 		const GetData = async () => {
 			const result = await axios(url);
 			console.log(result.data)
 			const daempre = await axios(API_BASE_URL_ALT + "/empresas/" + result.data.empresa_id)
+			const daTask = await axios(API_BASE_URL_ALT + "/tareas/?proceso=" + props.match.params.id)
 			setData(result.data);
+			setTasks(daTask.data)
 			setEmpresa(daempre.data);
 			setLoading(false);
 		};
@@ -61,7 +64,7 @@ function SingleProcess(props) {
 				<div>
 					<div className="card">
 						<div className="card-header">
-							<b>ID:</b> {data.id_proceso} 
+							<b>ID:</b> {data.id_proceso}
 						</div>
 						<div className="card-body">
 							<div className="row">
@@ -93,6 +96,66 @@ function SingleProcess(props) {
 		}
 	}
 
+	function showTask(id) {
+		props.history.push('/tareas/' + id);
+	};
+
+	
+	function putStatus(data){
+		var statusTypo = [
+			{
+			  "id_estadotarea": 1,
+			  "descripcion": "PENDIENTE"
+			},
+			{
+			  "id_estadotarea": 2,
+			  "descripcion": "ACTIVO"
+			},
+			{
+			  "id_estadotarea": 3,
+			  "descripcion": "FINALIZADO"
+			}
+		  ]
+		var	texto = "-----"
+			statusTypo.forEach(element => {
+				if(data=== element["id_estadotarea"]){texto = element["descripcion"]}
+			});
+			return texto
+		}
+
+	function weHadTask(lista) {
+		if (Array.isArray(lista) && lista.length > 0) {
+			return (<div><p>hay tareas pendientes</p>
+				<table className="table table-hover">
+					<thead className="thead-dark">
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Tarea</th>
+							<th scope="col">Inicio</th>
+							<th scope="col">Termino</th>
+							<th scope="col">Estado</th>
+							<th scope="col">→</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{lista.map(tarea => (
+							<tr key={"ta" + tarea.id_tarea}>
+								<td>{tarea.id_tarea}</td>
+								<td>{tarea.descripcion}</td>
+								<td>{toDator(tarea.inicio)}</td>
+								<td>{toDator(tarea.termino)}</td>
+								<td>{putStatus(tarea.estadotarea_id)}</td>
+								<td><button className="btn btn-info" onClick={() => { showTask(tarea.id_tarea) }}>IR</button>  </td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>)
+		}
+	}
+
+
 	if (isLoading) {
 		return (
 			<div className="App">
@@ -106,13 +169,19 @@ function SingleProcess(props) {
 			<SideBar />
 			<div className="col">
 				<br></br>
-				{potato !== null && <div className="alert alert-info alert-dismissible fade show"> <button type="button" className="close" data-dismiss="alert" onClick={() => {potato = null}}>&times;</button> <strong>Info:</strong> {potato}</div>}
+				{potato !== null && <div className="alert alert-info alert-dismissible fade show"> <button type="button" className="close" data-dismiss="alert" onClick={() => { potato = null }}>&times;</button> <strong>Info:</strong> {potato}</div>}
 				<h4>Proceso: </h4>
 				<div className="row">
 					<div className="col-md-12">
 						{dataExist(data)}
 					</div>
 
+				</div>
+				<div className="row">
+					<div className="col">
+						{tasks.length > 0 ? (<h4>tareas del proceso</h4>) : (<h4>No tiene tareas  </h4>)}
+						{weHadTask(tasks)}
+					</div>
 				</div>
 			</div>
 		</div>

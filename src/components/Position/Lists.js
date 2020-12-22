@@ -10,6 +10,7 @@ import SideBar from '../Sidebar/SiderBar';
 function Positions(props) {
 	var potato = null
 	if (props.location.state != null){ potato = props.location.state.detail;	};
+	const  power = localStorage.getItem("idPerfil")
 	const laUrl = API_BASE_URL_ALT+ "/cargos/"
 	const [data, setData] = useState([]);
 	console.log(props)
@@ -49,7 +50,7 @@ function Positions(props) {
 							<tr key={item.id_cargo}>
 								<td>{item.id_cargo}</td>
 								<td>{item.descripcion}</td>
-								<td><button className="btn btn-info" onClick={() => { showSingle(item.id_cargo) }}>Editar</button>  </td>
+								<td><button className="btn btn-info" disabled={power !== "1" ? true: false}  onClick={() => { showSingle(item.id_cargo) }}>Editar</button>  </td>
 							</tr>
 
 						))}
@@ -82,7 +83,7 @@ function Positions(props) {
 						<h4>Listado de Cargos:</h4>
 					</div>
 					<div className="col-1">
-						<button className="btn btn-outline-success" onClick={() => { props.history.push('/cargos/new'); }}>Agregar</button>
+						<button className="btn btn-outline-success"  disabled={power !== "1" ? true: false}  onClick={() => { props.history.push('/cargos/new'); }}>Agregar</button>
 					</div>
 				</div>
 				<br />
